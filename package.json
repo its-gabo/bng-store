@@ -4,10 +4,15 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "turbo run dev dev:worker",
     "lint": "turbo lint",
     "format": "turbo format",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "db:generate": "pnpm --filter api db:generate",
+    "db:migrate": "pnpm --filter api db:migrate",
+    "db:revert": "pnpm --filter api db:revert",
+    "generate:swagger": "pnpm --filter api generate:swagger",
+    "generate:client": "pnpm --filter api generate:swagger && pnpm --filter web generate:client"
   },
   "devDependencies": {
     "prettier": "^3.9.10",

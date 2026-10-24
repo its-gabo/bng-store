@@ -1,0 +1,20 @@
+export const OUTBOX_MESSAGE_TYPE = {
+  EMAIL: 'email',
+} as const;
+
+export const OUTBOX_MESSAGE_STATUS = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SUCCEEDED: 'SUCCEEDED',
+  FAILED: 'FAILED',
+} as const;
+
+export const OUTBOX_SETTINGS = {
+  BATCH_SIZE: 10,
+  POLL_INTERVAL_MS: 1_000,
+  LEASE_MS: 60_000,
+  MAX_ATTEMPTS: 5,
+  RETRY_DELAY_MS: 10_000,
+  TERMINAL_RETENTION_MS: 7 * 24 * 60 * 60 * 1_000,
+  CLEANUP_BATCH_SIZE: 100,
+} as const;

@@ -7,4 +7,5 @@ node_modules/
 .vinxi/
 coverage/
 pnpm-lock.yaml
-.pnpm-store/
+.pnpm-store/apps/web/src/api/generated-api.ts
+apps/api/src/swagger/api-schema.json
