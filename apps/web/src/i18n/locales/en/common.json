@@ -1,0 +1,117 @@
+{
+  "validation": {
+    "name": {
+      "required": "Enter your name"
+    },
+    "email": {
+      "invalid": "Enter a valid email address"
+    },
+    "password": {
+      "min_length": "Use at least 8 characters",
+      "confirm_mismatch": "Passwords do not match"
+    },
+    "reset_token": {
+      "missing": "Missing password reset token"
+    },
+    "verification_token": {
+      "missing": "Missing verification token"
+    }
+  },
+  "pages": {
+    "sign_in": {
+      "title": "Welcome back",
+      "description": "Sign in to your BNG Store account to continue where you left off.",
+      "email_label": "Email address",
+      "email_placeholder": "you@company.com",
+      "password_label": "Password",
+      "password_placeholder": "Enter your password",
+      "forgot_password": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "footer": {
+        "prompt": "Don't have an account?",
+        "link": "Create an account"
+      }
+    },
+    "sign_up": {
+      "title": "Create your account",
+      "description": "Register a new BNG Store account, then verify your email to sign in.",
+      "name_label": "Full Name",
+      "name_placeholder": "Enter your full name",
+      "email_label": "Email Address",
+      "email_placeholder": "you@company.com",
+      "password_label": "Password",
+      "password_placeholder": "Create a password",
+      "confirm_password_label": "Confirm Password",
+      "confirm_password_placeholder": "Re-enter your password",
+      "submit": "Create Account",
+      "submitting": "Creating Account...",
+      "footer": {
+        "prompt": "Already have an account?",
+        "link": "Sign in"
+      }
+    },
+    "forgot_password": {
+      "title": "Reset access",
+      "description": "Request a password reset email and continue recovery from your inbox.",
+      "email_label": "Email address",
+      "email_placeholder": "you@company.com",
+      "submit": "Send reset email",
+      "submitting": "Sending reset email...",
+      "back_to_sign_in": "Back to sign in"
+    },
+    "reset_password": {
+      "title": "Choose a new password",
+      "description": "Use the token from your email to set a new password and return to sign in.",
+      "missing_token": "Missing reset token. Open the password reset link from your inbox.",
+      "new_password_label": "New password",
+      "new_password_placeholder": "Create a new password",
+      "confirm_password_label": "Confirm password",
+      "confirm_password_placeholder": "Repeat the new password",
+      "submit": "Update password",
+      "submitting": "Updating password...",
+      "back_to_sign_in": "Back to sign in"
+    },
+    "verify_email": {
+      "title": "Confirm your inbox",
+      "description": "We're processing your email verification. This should only take a moment.",
+      "continue_to_sign_in": "Continue to sign in",
+      "result": {
+        "missing_token": "Missing verification token.",
+        "pending": "Verifying your email address...",
+        "success": "Your email address has been verified.",
+        "error": "Unable to verify the email address."
+      },
+      "alert": {
+        "success_title": "Email verified",
+        "error_title": "Verification failed"
+      }
+    },
+    "home": {
+      "title": "Welcome, {{name}}",
+      "signed_in_as": "Signed in as {{email}}",
+      "sign_out": "Sign out"
+    }
+  },
+  "api": {
+    "success": {
+      "auth.sign_in.success": "Signed in successfully.",
+      "auth.sign_up.success": "Please verify your email before signing in.",
+      "auth.forgot_password.success": "If the account exists, a password reset email has been sent.",
+      "auth.reset_password.success": "Password reset successfully.",
+      "auth.verify_email.success": "Your account has been verified. You can now sign in.",
+      "auth.sign_out.success": "Signed out successfully."
+    },
+    "error": {
+      "fallback": "Oops something went wrong..",
+      "auth.sign_in.fail": "Unable to sign in.",
+      "auth.sign_in.email_not_verified": "Your email address is not verified yet. Check your inbox and verify your account before signing in.",
+      "auth.sign_up.fail": "Unable to create account.",
+      "auth.verify_email.fail": "Unable to verify email.",
+      "auth.reset_password.fail": "Unable to reset password.",
+      "auth.forgot_password.fail": "Unable to request password reset.",
+      "validation.fail": "Please check the highlighted fields.",
+      "auth.sign_out.fail": "Unable to sign out."
+    }
+  }
+}

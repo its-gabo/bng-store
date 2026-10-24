@@ -1,8 +1,20 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import {
+  HeadContent,
+  Scripts,
+  createRootRouteWithContext,
+} from "@tanstack/react-router"
+import { Toaster } from "@workspace/ui/components/sonner"
 
 import appCss from "@workspace/ui/globals.css?url"
 
-export const Route = createRootRoute({
+import "@/i18n/i18n"
+
+import { createPageMeta } from "@/lib/page-meta"
+import type { RouterContext } from "@/router.types"
+
+import { AppProviders } from "@/providers/app-providers"
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     meta: [
       {
@@ -12,9 +24,11 @@ export const Route = createRootRoute({
         name: "viewport",
         content: "width=device-width, initial-scale=1",
       },
-      {
-        title: "TanStack Start Starter",
-      },
+      ...createPageMeta({
+        title: "BNG Store",
+        description: "BNG Store",
+        noIndex: false,
+      }),
     ],
     links: [
       {
@@ -33,13 +47,16 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { queryClient } = Route.useRouteContext()
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        {children}
+        <AppProviders queryClient={queryClient}>{children}</AppProviders>
+        <Toaster />
         <Scripts />
       </body>
     </html>
