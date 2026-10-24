@@ -1,9 +1,9 @@
+import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 
-import { Injectable, Logger } from '@nestjs/common';
-
-import { RabbitMqService } from '../../queue/rabbitmq.service';
-import { OUTBOX_EMAIL_QUEUE } from '../../queue/queue.constants';
+import { getErrorMessage } from '../../common/utils/error.utils';
+import { OUTBOX_EMAIL_QUEUE } from '../../queue/constants/queue.constants';
+import { RabbitMqService } from '../../queue/services/rabbitmq.service';
 import {
   OUTBOX_MESSAGE_TYPE,
   OUTBOX_SETTINGS,
@@ -58,9 +58,7 @@ export class OutboxWorkerService
 
       await Promise.all(messages.map((message) => this.publish(message)));
     } catch (error) {
-      this.logger.error(
-        `Failed to poll outbox: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      this.logger.error(`Failed to poll outbox: ${getErrorMessage(error)}`);
     } finally {
       this.polling = false;
     }

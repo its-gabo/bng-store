@@ -1,17 +1,15 @@
-import { createHash, randomBytes } from 'crypto';
-
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { createHash, randomBytes } from 'crypto';
 
+import type { AuthConfig } from '../../config/auth/auth.types';
 import type { AuthPreparedToken } from '../types/auth.types';
 
 @Injectable()
 export class AuthTokenService {
-  private readonly authSecret: string;
-
-  constructor(private readonly configService: ConfigService) {
-    this.authSecret = this.configService.getOrThrow<string>('auth.AUTH_SECRET');
-  }
+  constructor(
+    private readonly configService: ConfigService<AuthConfig, true>,
+  ) {}
 
   createRawToken(): string {
     return randomBytes(32).toString('base64url');
@@ -19,7 +17,9 @@ export class AuthTokenService {
 
   hashToken(token: string): string {
     return createHash('sha256')
-      .update(`${token}:${this.authSecret}`)
+      .update(
+        `${token}:${this.configService.get('auth.AUTH_SECRET', { infer: true })}`,
+      )
       .digest('hex');
   }
 

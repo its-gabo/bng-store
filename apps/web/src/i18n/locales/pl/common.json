@@ -100,7 +100,11 @@
       "auth.forgot_password.success": "Jeśli konto istnieje, wysłaliśmy wiadomość do resetu hasła.",
       "auth.reset_password.success": "Hasło zostało zresetowane.",
       "auth.verify_email.success": "Twoje konto zostało zweryfikowane. Możesz się teraz zalogować.",
-      "auth.sign_out.success": "Wylogowano pomyślnie."
+      "auth.sign_out.success": "Wylogowano pomyślnie.",
+      "store.checkout.success": "Zamówienie utworzone. Dokończ płatność, aby aktywować plan.",
+      "store.payment.success": "Płatność potwierdzona. Twój plan jest aktywny.",
+      "store.subscription.cancel.success": "Subskrypcja zakończy się wraz z bieżącym okresem rozliczeniowym.",
+      "store.subscription.adjust.success": "Zmiana planu utworzona. Dokończ płatność, aby ją zastosować."
     },
     "error": {
       "fallback": "Ups, coś poszło nie tak..",
@@ -111,7 +115,21 @@
       "auth.reset_password.fail": "Nie udało się zresetować hasła.",
       "auth.forgot_password.fail": "Nie udało się wysłać prośby o reset hasła.",
       "validation.fail": "Sprawdź zaznaczone pola.",
-      "auth.sign_out.fail": "Nie udało się wylogować."
+      "auth.sign_out.fail": "Nie udało się wylogować.",
+      "auth.unauthorized": "Zaloguj się, aby kontynuować.",
+      "store.selection.bundle_not_found": "Ten plan jest niedostępny.",
+      "store.selection.application_not_found": "Jedna z wybranych aplikacji jest niedostępna.",
+      "store.checkout.applications_already_owned": "Masz już niektóre z tych aplikacji w aktywnej subskrypcji.",
+      "store.payment.order_not_found": "Nie znaleziono zamówienia.",
+      "store.payment.order_not_pending": "To zamówienie nie oczekuje już na płatność.",
+      "store.payment.order_expired": "To zamówienie wygasło. Rozpocznij zakup ponownie.",
+      "store.payment.applications_already_owned": "Masz już niektóre z tych aplikacji w aktywnej subskrypcji. Zamówienie zostało anulowane.",
+      "store.payment.subscription_not_adjustable": "Tej subskrypcji nie można już zmienić. Zamówienie zostało anulowane.",
+      "store.subscription.not_found": "Nie znaleziono subskrypcji.",
+      "store.subscription.not_adjustable": "Zmieniać można tylko aktywne subskrypcje miesięczne.",
+      "store.subscription.not_cancellable": "Ta subskrypcja jest już anulowana lub zakończona.",
+      "common.request_failed": "Nie udało się zrealizować żądania.",
+      "common.internal_error": "Wystąpił błąd po naszej stronie. Spróbuj ponownie później."
     }
   }
 }

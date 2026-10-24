@@ -5,10 +5,10 @@ import {
   WelcomeVerifyEmail,
 } from '@workspace/email-templates';
 
-import { AUTH_EMAIL_SUBJECTS } from './auth-email.constants';
+import { AUTH_EMAIL_SUBJECTS } from '../constants/auth-email.constants';
 
-import type { AuthEmailPayloads } from './auth-email.types';
-import type { EmailMessage } from '../../email/email.types';
+import type { EmailMessage } from '../../email/types/email.types';
+import type { AuthEmailPayloads } from '../types/auth-email.types';
 
 @Injectable()
 export class AuthEmailService {

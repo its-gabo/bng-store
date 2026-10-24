@@ -1,4 +1,7 @@
-import type { EmailMessage } from '../../email/email.types';
+import type { EmailMessage } from '../../email/types/email.types';
+import type { AUTH_SUCCESS_CODES } from '../dto/auth.responses';
+import type { AUTH_ERROR_CODES } from '../errors/auth.errors';
+import type { Request } from 'express';
 
 export type AuthUserSession = {
   userId: string;
@@ -80,3 +83,12 @@ export type CreatePasswordResetTokenParams = {
   expiresAt: Date;
   resetEmail: EmailMessage;
 };
+
+export type AuthenticatedRequest = Request & {
+  authSession?: AuthUserSession;
+};
+
+export type AuthSuccessCode =
+  (typeof AUTH_SUCCESS_CODES)[keyof typeof AUTH_SUCCESS_CODES];
+export type AuthErrorCode =
+  (typeof AUTH_ERROR_CODES)[keyof typeof AUTH_ERROR_CODES];

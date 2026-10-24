@@ -2,13 +2,17 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { connect } from 'amqplib';
 
-import { RABBITMQ_PREFETCH, RABBITMQ_RECOVERY } from './queue.constants';
+import { getErrorMessage } from '../../common/utils/error.utils';
+import {
+  RABBITMQ_PREFETCH,
+  RABBITMQ_RECOVERY,
+} from '../constants/queue.constants';
 
 import type {
   RabbitMqConsumer,
   RabbitMqMessageHandler,
   RabbitMqPublishOptions,
-} from './queue.types';
+} from '../types/queue.types';
 import type { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import type {
   ChannelModel,
@@ -128,7 +132,7 @@ export class RabbitMqService implements OnModuleInit, OnModuleDestroy {
           channel.ack(message);
         } catch (error) {
           this.logger.error(
-            `Failed to handle message from ${queue}: ${error instanceof Error ? error.message : String(error)}`,
+            `Failed to handle message from ${queue}: ${getErrorMessage(error)}`,
           );
           channel.nack(message, false, false);
         }

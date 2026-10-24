@@ -7,8 +7,9 @@ import {
   OUTBOX_MESSAGE_TYPE,
 } from '../constants/outbox.constants';
 import { OutboxMessageEntity } from '../db/outbox-message.entity';
+import { calculateRetryAvailableAt } from '../utils/outbox-retry.utils';
 
-import type { EmailMessage } from '../../email/email.types';
+import type { EmailMessage } from '../../email/types/email.types';
 import type { OutboxEmailMessage } from '../types/outbox.types';
 import type { EntityManager } from 'typeorm';
 
@@ -120,9 +121,11 @@ export class OutboxRepository {
     retryDelayMs: number,
   ): Promise<void> {
     const terminal = attempts >= maxAttempts;
-    const availableAt = new Date(
-      Date.now() + retryDelayMs * 2 ** Math.max(0, attempts - 1),
-    );
+    const availableAt = calculateRetryAvailableAt({
+      attempts,
+      retryDelayMs,
+      now: new Date(),
+    });
 
     await this.outboxMessages.update(
       {

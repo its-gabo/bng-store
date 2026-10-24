@@ -100,7 +100,11 @@
       "auth.forgot_password.success": "If the account exists, a password reset email has been sent.",
       "auth.reset_password.success": "Password reset successfully.",
       "auth.verify_email.success": "Your account has been verified. You can now sign in.",
-      "auth.sign_out.success": "Signed out successfully."
+      "auth.sign_out.success": "Signed out successfully.",
+      "store.checkout.success": "Order created. Complete the payment to activate your plan.",
+      "store.payment.success": "Payment confirmed. Your plan is active.",
+      "store.subscription.cancel.success": "Your subscription will end with the current billing period.",
+      "store.subscription.adjust.success": "Plan change created. Complete the payment to apply it."
     },
     "error": {
       "fallback": "Oops something went wrong..",
@@ -111,7 +115,21 @@
       "auth.reset_password.fail": "Unable to reset password.",
       "auth.forgot_password.fail": "Unable to request password reset.",
       "validation.fail": "Please check the highlighted fields.",
-      "auth.sign_out.fail": "Unable to sign out."
+      "auth.sign_out.fail": "Unable to sign out.",
+      "auth.unauthorized": "Please sign in to continue.",
+      "store.selection.bundle_not_found": "This plan is not available.",
+      "store.selection.application_not_found": "One of the selected applications is not available.",
+      "store.checkout.applications_already_owned": "You already have some of these applications in an active subscription.",
+      "store.payment.order_not_found": "Order not found.",
+      "store.payment.order_not_pending": "This order is no longer awaiting payment.",
+      "store.payment.order_expired": "This order has expired. Please start the checkout again.",
+      "store.payment.applications_already_owned": "You already have some of these applications in an active subscription. The order was cancelled.",
+      "store.payment.subscription_not_adjustable": "This subscription can no longer be changed. The order was cancelled.",
+      "store.subscription.not_found": "Subscription not found.",
+      "store.subscription.not_adjustable": "Only active monthly subscriptions can be changed.",
+      "store.subscription.not_cancellable": "This subscription is already cancelled or has ended.",
+      "common.request_failed": "The request could not be completed.",
+      "common.internal_error": "Something went wrong on our side. Please try again later."
     }
   }
 }

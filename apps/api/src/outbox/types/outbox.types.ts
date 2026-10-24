@@ -1,9 +1,8 @@
+import type { EmailMessage } from '../../email/types/email.types';
 import type {
   OUTBOX_MESSAGE_STATUS,
   OUTBOX_MESSAGE_TYPE,
 } from '../constants/outbox.constants';
-
-import type { EmailMessage } from '../../email/email.types';
 
 export type OutboxMessageType =
   (typeof OUTBOX_MESSAGE_TYPE)[keyof typeof OUTBOX_MESSAGE_TYPE];

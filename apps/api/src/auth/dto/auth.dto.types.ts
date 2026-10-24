@@ -10,16 +10,23 @@ import type {
   authSignInBodySchema,
   authResetPasswordBodySchema,
   authVerifyEmailQuerySchema,
+  authUserSchema,
 } from './auth.schemas';
-import type { Static } from '@sinclair/typebox';
+import type { Static, StaticDecode } from '@sinclair/typebox';
 
-export type AuthSignUpBody = Static<typeof authSignUpBodySchema>;
-export type AuthSignInBody = Static<typeof authSignInBodySchema>;
-export type AuthForgotPasswordBody = Static<
+export type AuthSignUpBody = StaticDecode<typeof authSignUpBodySchema>;
+export type AuthSignInBody = StaticDecode<typeof authSignInBodySchema>;
+export type AuthForgotPasswordBody = StaticDecode<
   typeof authForgotPasswordBodySchema
 >;
-export type AuthResetPasswordBody = Static<typeof authResetPasswordBodySchema>;
-export type AuthVerifyEmailQuery = Static<typeof authVerifyEmailQuerySchema>;
+export type AuthResetPasswordBody = StaticDecode<
+  typeof authResetPasswordBodySchema
+>;
+export type AuthVerifyEmailQuery = StaticDecode<
+  typeof authVerifyEmailQuerySchema
+>;
+
+export type AuthUserDto = Static<typeof authUserSchema>;
 
 export type AuthEmptyData = Static<typeof authEmptyDataSchema>;
 export type AuthSignInData = Static<typeof authSignInDataSchema>;

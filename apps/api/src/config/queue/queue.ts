@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 
-import { configValidator } from '../config.validator';
+import { configValidator } from '../utils/config.validator';
 
 import { queueSchema } from './queue.schema';
 

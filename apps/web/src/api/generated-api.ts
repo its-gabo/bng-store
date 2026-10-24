@@ -10,81 +10,32 @@
  * ---------------------------------------------------------------
  */
 
-export interface SignUpEmailBody {
+export interface VerifyEmailResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: object;
+}
+
+export interface ApiErrorResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  /** @minLength 1 */
+  reason: string;
+  errors?: {
+    path: string;
+    message: string;
+  }[];
+}
+
+export interface ForgotPasswordBody {
   /**
    * @format email
    * @minLength 3
    */
-  email: string;
-  /** @minLength 8 */
-  password: string;
-  /** @minLength 1 */
-  name: string;
-  /**
-   * @minLength 1
-   * @maxLength 2048
-   */
-  redirectTo?: string;
-}
-
-export interface SignUpEmailResponse {
-  /** @minLength 1 */
-  code: string;
-  /** @minLength 1 */
-  message: string;
-  data: object;
-}
-
-export interface SignInEmailBody {
-  /** @minLength 3 */
-  email: string;
-  /** @minLength 8 */
-  password: string;
-}
-
-export interface SignInEmailResponse {
-  /** @minLength 1 */
-  code: string;
-  /** @minLength 1 */
-  message: string;
-  data: {
-    user: {
-      id: string;
-      /** @minLength 3 */
-      email: string;
-      name: string;
-      emailVerified: boolean;
-    };
-  };
-}
-
-export interface SignOutResponse {
-  /** @minLength 1 */
-  code: string;
-  /** @minLength 1 */
-  message: string;
-  data: object;
-}
-
-export interface GetSessionResponse {
-  /** @minLength 1 */
-  code: string;
-  /** @minLength 1 */
-  message: string;
-  data: {
-    authenticated: boolean;
-    user?: {
-      id: string;
-      /** @minLength 3 */
-      email: string;
-      name: string;
-      emailVerified: boolean;
-    };
-  };
-}
-
-export interface ForgotPasswordBody {
-  /** @minLength 3 */
   email: string;
 }
 
@@ -111,12 +62,265 @@ export interface ResetPasswordResponse {
   data: object;
 }
 
-export interface VerifyEmailResponse {
+export interface SignUpEmailBody {
+  /**
+   * @format email
+   * @minLength 3
+   */
+  email: string;
+  /** @minLength 8 */
+  password: string;
+  /** @minLength 1 */
+  name: string;
+  /**
+   * @format safe-redirect-path
+   * @minLength 1
+   * @maxLength 2048
+   */
+  redirectTo?: string;
+}
+
+export interface SignUpEmailResponse {
   /** @minLength 1 */
   code: string;
   /** @minLength 1 */
   message: string;
   data: object;
+}
+
+export interface SignInEmailBody {
+  /**
+   * @format email
+   * @minLength 3
+   */
+  email: string;
+  /** @minLength 8 */
+  password: string;
+}
+
+export interface SignInEmailResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    user: {
+      /** @format uuid */
+      id: string;
+      /** @minLength 3 */
+      email: string;
+      name: string;
+      emailVerified: boolean;
+    };
+  };
+}
+
+export interface SignOutResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: object;
+}
+
+export interface GetSessionResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    authenticated: boolean;
+    user?: {
+      /** @format uuid */
+      id: string;
+      /** @minLength 3 */
+      email: string;
+      name: string;
+      emailVerified: boolean;
+    };
+  };
+}
+
+export interface ListMySubscriptionsResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    /** @format uuid */
+    id: string;
+    status: "active" | "cancelled" | "expired";
+    billingPeriod: "monthly" | "yearly";
+    bundle: {
+      /** @format uuid */
+      id: string;
+      name: string;
+    } | null;
+    applications: {
+      /** @format uuid */
+      id: string;
+      slug: string;
+      name: string;
+    }[];
+    /** @format date-time */
+    currentPeriodStart: string;
+    /** @format date-time */
+    currentPeriodEnd: string;
+    cancelAtPeriodEnd: boolean;
+    licenseKeyHint: string | null;
+  }[];
+}
+
+export interface CancelMySubscriptionResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: object;
+}
+
+export type StoreSelectionBody =
+  | {
+      billingPeriod: "monthly" | "yearly";
+      /** @format uuid */
+      bundleId: string;
+    }
+  | {
+      billingPeriod: "monthly" | "yearly";
+      /**
+       * @maxItems 50
+       * @minItems 1
+       */
+      applicationIds: string[];
+    };
+
+export interface RequestMySubscriptionAdjustmentResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    /** @format uuid */
+    orderId: string;
+    kind: "purchase" | "adjustment" | "renewal";
+    status: "pending" | "paid" | "failed" | "cancelled" | "expired";
+    billingPeriod: "monthly" | "yearly";
+    /** @min 0 */
+    totalAmountMinor: number;
+    currency: "PLN";
+    paymentProvider: "mock";
+    paymentReference: string;
+    /** @format date-time */
+    expiresAt: string;
+  };
+}
+
+export interface GetCatalogResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    currency: "PLN";
+    applications: {
+      /** @format uuid */
+      id: string;
+      slug: string;
+      name: string;
+      description: string;
+      prices: {
+        billingPeriod: "monthly" | "yearly";
+        /** @min 0 */
+        amountMinor: number;
+      }[];
+    }[];
+    bundles: {
+      /** @format uuid */
+      id: string;
+      slug: string;
+      name: string;
+      description: string;
+      applicationIds: string[];
+      prices: {
+        billingPeriod: "monthly" | "yearly";
+        /** @min 0 */
+        amountMinor: number;
+      }[];
+    }[];
+  };
+}
+
+export interface QuoteCustomSelectionBody {
+  billingPeriod: "monthly" | "yearly";
+  /**
+   * @maxItems 50
+   * @minItems 1
+   */
+  applicationIds: string[];
+}
+
+export interface QuoteCustomSelectionResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    billingPeriod: "monthly" | "yearly";
+    currency: "PLN";
+    /** @min 0 */
+    totalAmountMinor: number;
+    items: {
+      /** @format uuid */
+      applicationId: string;
+      /** @min 0 */
+      amountMinor: number;
+    }[];
+    suggestedBundle: {
+      /** @format uuid */
+      bundleId: string;
+      slug: string;
+      name: string;
+      /** @min 0 */
+      amountMinor: number;
+      /** @min 0 */
+      savingsMinor: number;
+    } | null;
+  };
+}
+
+export interface CheckoutSelectionResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    /** @format uuid */
+    orderId: string;
+    kind: "purchase" | "adjustment" | "renewal";
+    status: "pending" | "paid" | "failed" | "cancelled" | "expired";
+    billingPeriod: "monthly" | "yearly";
+    /** @min 0 */
+    totalAmountMinor: number;
+    currency: "PLN";
+    paymentProvider: "mock";
+    paymentReference: string;
+    /** @format date-time */
+    expiresAt: string;
+  };
+}
+
+export interface ConfirmMockPaymentResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    /** @format uuid */
+    orderId: string;
+    /** @format uuid */
+    subscriptionId: string;
+    licenseKey: string | null;
+  };
 }
 
 import type {
@@ -308,15 +512,15 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerSignUpEmail
+     * @tags AuthRegistration
+     * @name AuthRegistrationControllerSignUpEmail
      * @request POST:/api/v1/auth/sign-up/email
      */
-    authControllerSignUpEmail: (
+    authRegistrationControllerSignUpEmail: (
       data: SignUpEmailBody,
       params: RequestParams = {},
     ) =>
-      this.request<SignUpEmailResponse, any>({
+      this.request<SignUpEmailResponse, ApiErrorResponse>({
         path: `/api/v1/auth/sign-up/email`,
         method: "POST",
         body: data,
@@ -328,15 +532,15 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerSignInEmail
+     * @tags AuthSession
+     * @name AuthSessionControllerSignInEmail
      * @request POST:/api/v1/auth/sign-in/email
      */
-    authControllerSignInEmail: (
+    authSessionControllerSignInEmail: (
       data: SignInEmailBody,
       params: RequestParams = {},
     ) =>
-      this.request<SignInEmailResponse, any>({
+      this.request<SignInEmailResponse, ApiErrorResponse>({
         path: `/api/v1/auth/sign-in/email`,
         method: "POST",
         body: data,
@@ -348,12 +552,12 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerSignOut
+     * @tags AuthSession
+     * @name AuthSessionControllerSignOut
      * @request POST:/api/v1/auth/sign-out
      */
-    authControllerSignOut: (params: RequestParams = {}) =>
-      this.request<SignOutResponse, any>({
+    authSessionControllerSignOut: (params: RequestParams = {}) =>
+      this.request<SignOutResponse, ApiErrorResponse>({
         path: `/api/v1/auth/sign-out`,
         method: "POST",
         format: "json",
@@ -363,12 +567,12 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerGetSession
+     * @tags AuthSession
+     * @name AuthSessionControllerGetSession
      * @request GET:/api/v1/auth/session
      */
-    authControllerGetSession: (params: RequestParams = {}) =>
-      this.request<GetSessionResponse, any>({
+    authSessionControllerGetSession: (params: RequestParams = {}) =>
+      this.request<GetSessionResponse, ApiErrorResponse>({
         path: `/api/v1/auth/session`,
         method: "GET",
         format: "json",
@@ -378,15 +582,15 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerForgotPassword
+     * @tags AuthPassword
+     * @name AuthPasswordControllerForgotPassword
      * @request POST:/api/v1/auth/forgot-password
      */
-    authControllerForgotPassword: (
+    authPasswordControllerForgotPassword: (
       data: ForgotPasswordBody,
       params: RequestParams = {},
     ) =>
-      this.request<ForgotPasswordResponse, any>({
+      this.request<ForgotPasswordResponse, ApiErrorResponse>({
         path: `/api/v1/auth/forgot-password`,
         method: "POST",
         body: data,
@@ -398,15 +602,15 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerResetPassword
+     * @tags AuthPassword
+     * @name AuthPasswordControllerResetPassword
      * @request POST:/api/v1/auth/reset-password
      */
-    authControllerResetPassword: (
+    authPasswordControllerResetPassword: (
       data: ResetPasswordBody,
       params: RequestParams = {},
     ) =>
-      this.request<ResetPasswordResponse, any>({
+      this.request<ResetPasswordResponse, ApiErrorResponse>({
         path: `/api/v1/auth/reset-password`,
         method: "POST",
         body: data,
@@ -418,21 +622,150 @@ export class BngStoreApi<
     /**
      * No description
      *
-     * @tags Auth
-     * @name AuthControllerVerifyEmail
+     * @tags AuthEmailVerification
+     * @name AuthEmailVerificationControllerVerifyEmail
      * @request GET:/api/v1/auth/verify-email
      */
-    authControllerVerifyEmail: (
+    authEmailVerificationControllerVerifyEmail: (
       query: {
         /** @minLength 1 */
         token: string;
       },
       params: RequestParams = {},
     ) =>
-      this.request<VerifyEmailResponse, any>({
+      this.request<VerifyEmailResponse, ApiErrorResponse>({
         path: `/api/v1/auth/verify-email`,
         method: "GET",
         query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags StoreCatalog
+     * @name StoreCatalogControllerGetCatalog
+     * @request GET:/api/v1/store/catalog
+     */
+    storeCatalogControllerGetCatalog: (params: RequestParams = {}) =>
+      this.request<GetCatalogResponse, ApiErrorResponse>({
+        path: `/api/v1/store/catalog`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags StoreCatalog
+     * @name StoreCatalogControllerQuoteCustomSelection
+     * @request POST:/api/v1/store/quote
+     */
+    storeCatalogControllerQuoteCustomSelection: (
+      data: QuoteCustomSelectionBody,
+      params: RequestParams = {},
+    ) =>
+      this.request<QuoteCustomSelectionResponse, ApiErrorResponse>({
+        path: `/api/v1/store/quote`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags StoreCheckout
+     * @name StoreCheckoutControllerCheckoutSelection
+     * @request POST:/api/v1/store/checkout
+     */
+    storeCheckoutControllerCheckoutSelection: (
+      data: StoreSelectionBody,
+      params: RequestParams = {},
+    ) =>
+      this.request<CheckoutSelectionResponse, ApiErrorResponse>({
+        path: `/api/v1/store/checkout`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags StoreCheckout
+     * @name StoreCheckoutControllerConfirmMockPayment
+     * @request POST:/api/v1/store/payments/mock/{paymentReference}/confirm
+     */
+    storeCheckoutControllerConfirmMockPayment: (
+      paymentReference: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<ConfirmMockPaymentResponse, ApiErrorResponse>({
+        path: `/api/v1/store/payments/mock/${paymentReference}/confirm`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags MySubscriptions
+     * @name MySubscriptionsControllerListMySubscriptions
+     * @request GET:/api/v1/me/subscriptions
+     */
+    mySubscriptionsControllerListMySubscriptions: (
+      params: RequestParams = {},
+    ) =>
+      this.request<ListMySubscriptionsResponse, ApiErrorResponse>({
+        path: `/api/v1/me/subscriptions`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags MySubscriptions
+     * @name MySubscriptionsControllerCancelMySubscription
+     * @request POST:/api/v1/me/subscriptions/{subscriptionId}/cancel
+     */
+    mySubscriptionsControllerCancelMySubscription: (
+      subscriptionId: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<CancelMySubscriptionResponse, ApiErrorResponse>({
+        path: `/api/v1/me/subscriptions/${subscriptionId}/cancel`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags MySubscriptions
+     * @name MySubscriptionsControllerRequestMySubscriptionAdjustment
+     * @request POST:/api/v1/me/subscriptions/{subscriptionId}/adjustments
+     */
+    mySubscriptionsControllerRequestMySubscriptionAdjustment: (
+      subscriptionId: string,
+      data: StoreSelectionBody,
+      params: RequestParams = {},
+    ) =>
+      this.request<RequestMySubscriptionAdjustmentResponse, ApiErrorResponse>({
+        path: `/api/v1/me/subscriptions/${subscriptionId}/adjustments`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

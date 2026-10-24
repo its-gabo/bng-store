@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { EmailService } from '../../email/email.service';
-import { OUTBOX_EMAIL_QUEUE } from '../../queue/queue.constants';
-import { RabbitMqService } from '../../queue/rabbitmq.service';
+import { getErrorMessage } from '../../common/utils/error.utils';
+import { EmailService } from '../../email/services/email.service';
+import { OUTBOX_EMAIL_QUEUE } from '../../queue/constants/queue.constants';
+import { RabbitMqService } from '../../queue/services/rabbitmq.service';
 import {
   OUTBOX_MESSAGE_TYPE,
   OUTBOX_SETTINGS,
@@ -38,8 +39,7 @@ export class OutboxEmailConsumer implements OnApplicationBootstrap {
       await this.emailService.sendEmail(job.payload);
       await this.outboxRepository.markSucceeded(job.id, job.workerId);
     } catch (error) {
-      const messageText =
-        error instanceof Error ? error.message : String(error);
+      const messageText = getErrorMessage(error);
 
       await this.outboxRepository.markFailed(
         job.id,
