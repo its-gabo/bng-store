@@ -10,19 +10,30 @@
     "preview": "vite preview",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:client": "swagger-typescript-api generate -p ../api/src/swagger/api-schema.json -o ./src/api --axios --name generated-api.ts --api-class-name BngStoreApi"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.9.2",
     "@tailwindcss/vite": "^4",
     "@tanstack/react-devtools": "latest",
+    "@tanstack/react-query": "^5.104.3",
     "@tanstack/react-router": "latest",
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-start": "latest",
     "@workspace/ui": "workspace:*",
+    "axios": "^1.20.0",
+    "i18next": "^26.4.7",
+    "i18next-browser-languagedetector": "^8.2.1",
     "lucide-react": "^1.59.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "tailwindcss": "^4"
+    "react-hook-form": "^7.90.0",
+    "react-i18next": "^17.0.21",
+    "sonner": "^2.0.8",
+    "tailwindcss": "^4",
+    "ts-pattern": "^5.9.2",
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@tanstack/devtools-vite": "latest",

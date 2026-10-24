@@ -1,0 +1,117 @@
+{
+  "validation": {
+    "name": {
+      "required": "Wpisz swoje imię i nazwisko"
+    },
+    "email": {
+      "invalid": "Wpisz prawidłowy adres e-mail"
+    },
+    "password": {
+      "min_length": "Użyj co najmniej 8 znaków",
+      "confirm_mismatch": "Hasła nie są takie same"
+    },
+    "reset_token": {
+      "missing": "Brak tokenu resetowania hasła"
+    },
+    "verification_token": {
+      "missing": "Brakuje tokenu weryfikacyjnego"
+    }
+  },
+  "pages": {
+    "sign_in": {
+      "title": "Witaj ponownie",
+      "description": "Zaloguj się do konta BNG Store, aby kontynuować.",
+      "email_label": "Adres e-mail",
+      "email_placeholder": "you@company.com",
+      "password_label": "Hasło",
+      "password_placeholder": "Wpisz hasło",
+      "forgot_password": "Nie pamiętasz hasła?",
+      "submit": "Zaloguj się",
+      "submitting": "Logowanie...",
+      "footer": {
+        "prompt": "Nie masz konta?",
+        "link": "Utwórz konto"
+      }
+    },
+    "sign_up": {
+      "title": "Utwórz konto",
+      "description": "Załóż konto BNG Store, a następnie zweryfikuj adres e-mail, aby się zalogować.",
+      "name_label": "Imię i nazwisko",
+      "name_placeholder": "Wpisz imię i nazwisko",
+      "email_label": "Adres e-mail",
+      "email_placeholder": "you@company.com",
+      "password_label": "Hasło",
+      "password_placeholder": "Utwórz hasło",
+      "confirm_password_label": "Potwierdź hasło",
+      "confirm_password_placeholder": "Wpisz hasło ponownie",
+      "submit": "Utwórz konto",
+      "submitting": "Tworzenie konta...",
+      "footer": {
+        "prompt": "Masz już konto?",
+        "link": "Zaloguj się"
+      }
+    },
+    "forgot_password": {
+      "title": "Odzyskaj dostęp",
+      "description": "Poproś o e-mail do resetu hasła i dokończ odzyskiwanie z poziomu skrzynki.",
+      "email_label": "Adres e-mail",
+      "email_placeholder": "you@company.com",
+      "submit": "Wyślij e-mail resetujący",
+      "submitting": "Wysyłanie e-maila resetującego...",
+      "back_to_sign_in": "Wróć do logowania"
+    },
+    "reset_password": {
+      "title": "Ustaw nowe hasło",
+      "description": "Użyj tokenu z e-maila, aby ustawić nowe hasło i wrócić do logowania.",
+      "missing_token": "Brakuje tokenu resetowania. Otwórz link do resetu hasła ze swojej skrzynki.",
+      "new_password_label": "Nowe hasło",
+      "new_password_placeholder": "Utwórz nowe hasło",
+      "confirm_password_label": "Potwierdź hasło",
+      "confirm_password_placeholder": "Powtórz nowe hasło",
+      "submit": "Zaktualizuj hasło",
+      "submitting": "Aktualizowanie hasła...",
+      "back_to_sign_in": "Wróć do logowania"
+    },
+    "verify_email": {
+      "title": "Potwierdź skrzynkę e-mail",
+      "description": "Przetwarzamy weryfikację Twojego adresu e-mail. To powinno potrwać tylko chwilę.",
+      "continue_to_sign_in": "Przejdź do logowania",
+      "result": {
+        "missing_token": "Brakuje tokenu weryfikacyjnego.",
+        "pending": "Weryfikowanie adresu e-mail...",
+        "success": "Adres e-mail został zweryfikowany.",
+        "error": "Nie udało się zweryfikować adresu e-mail."
+      },
+      "alert": {
+        "success_title": "E-mail zweryfikowany",
+        "error_title": "Weryfikacja nie powiodła się"
+      }
+    },
+    "home": {
+      "title": "Witaj, {{name}}",
+      "signed_in_as": "Zalogowano jako {{email}}",
+      "sign_out": "Wyloguj się"
+    }
+  },
+  "api": {
+    "success": {
+      "auth.sign_in.success": "Zalogowano pomyślnie.",
+      "auth.sign_up.success": "Zweryfikuj adres e-mail przed zalogowaniem.",
+      "auth.forgot_password.success": "Jeśli konto istnieje, wysłaliśmy wiadomość do resetu hasła.",
+      "auth.reset_password.success": "Hasło zostało zresetowane.",
+      "auth.verify_email.success": "Twoje konto zostało zweryfikowane. Możesz się teraz zalogować.",
+      "auth.sign_out.success": "Wylogowano pomyślnie."
+    },
+    "error": {
+      "fallback": "Ups, coś poszło nie tak..",
+      "auth.sign_in.fail": "Nie udało się zalogować.",
+      "auth.sign_in.email_not_verified": "Twój adres e-mail nie jest jeszcze zweryfikowany. Sprawdź skrzynkę odbiorczą i zweryfikuj konto przed zalogowaniem.",
+      "auth.sign_up.fail": "Nie udało się utworzyć konta.",
+      "auth.verify_email.fail": "Nie udało się zweryfikować adresu e-mail.",
+      "auth.reset_password.fail": "Nie udało się zresetować hasła.",
+      "auth.forgot_password.fail": "Nie udało się wysłać prośby o reset hasła.",
+      "validation.fail": "Sprawdź zaznaczone pola.",
+      "auth.sign_out.fail": "Nie udało się wylogować."
+    }
+  }
+}
