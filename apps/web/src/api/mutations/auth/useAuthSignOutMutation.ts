@@ -23,7 +23,7 @@ export function useAuthSignOutMutation(
 
   return useMutation({
     mutationFn: async () => {
-      const { data } = await apiClient.api.authControllerSignOut()
+      const { data } = await apiClient.api.authSessionControllerSignOut()
 
       return data
     },

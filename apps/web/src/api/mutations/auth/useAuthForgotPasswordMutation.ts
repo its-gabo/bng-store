@@ -21,7 +21,8 @@ export function useAuthForgotPasswordMutation(
 
   return useMutation({
     mutationFn: async (values: ForgotPasswordValues) => {
-      const { data } = await apiClient.api.authControllerForgotPassword(values)
+      const { data } =
+        await apiClient.api.authPasswordControllerForgotPassword(values)
 
       return data
     },

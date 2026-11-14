@@ -21,7 +21,8 @@ export function useAuthResetPasswordMutation(
 
   return useMutation({
     mutationFn: async (values: ResetPasswordValues) => {
-      const { data } = await apiClient.api.authControllerResetPassword(values)
+      const { data } =
+        await apiClient.api.authPasswordControllerResetPassword(values)
 
       return data
     },

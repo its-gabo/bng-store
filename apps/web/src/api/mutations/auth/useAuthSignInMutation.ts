@@ -27,7 +27,8 @@ export function useAuthSignInMutation(
 
   return useMutation({
     mutationFn: async (values: SignInValues) => {
-      const { data } = await apiClient.api.authControllerSignInEmail(values)
+      const { data } =
+        await apiClient.api.authSessionControllerSignInEmail(values)
 
       return data
     },

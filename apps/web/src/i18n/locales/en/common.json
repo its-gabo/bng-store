@@ -17,6 +17,10 @@
       "missing": "Missing verification token"
     }
   },
+  "navigation": {
+    "store": "Store",
+    "account": "My account"
+  },
   "pages": {
     "sign_in": {
       "title": "Welcome back",
@@ -88,9 +92,97 @@
       }
     },
     "home": {
-      "title": "Welcome, {{name}}",
-      "signed_in_as": "Signed in as {{email}}",
       "sign_out": "Sign out"
+    },
+    "store": {
+      "title": "Build your license",
+      "description": "Pick the Craft apps you need or grab a bundle. Everything you buy is unlocked by your one license key.",
+      "catalog_unavailable": "The store is unavailable right now. Please try again later.",
+      "bundles_title": "Bundles",
+      "applications_title": "Apps",
+      "per_month": " / month",
+      "per_year": " / year",
+      "billing_period": {
+        "label": "Billing period",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      },
+      "application": {
+        "in_bundle": "Included in bundle",
+        "owned": "Already in your license"
+      },
+      "bundle": {
+        "application_count_one": "{{count}} app",
+        "application_count_other": "{{count}} apps",
+        "includes_owned": "Includes apps you already have"
+      },
+      "suggestion": {
+        "title_savings": "Save {{savings}} with the {{bundle}} bundle",
+        "title_same_price": "Get the {{bundle}} bundle for the same price",
+        "description": "The bundle covers everything you picked, plus more apps.",
+        "description_with_extras": "The bundle replaces some of your picks; {{extras}} stay as extras.",
+        "switch": "Switch to {{bundle}}"
+      },
+      "cart": {
+        "title": "Your license",
+        "empty": "Pick apps or a bundle to see the price.",
+        "bundle_line": "{{bundle}} bundle",
+        "remove": "Remove {{name}}",
+        "total": "Total",
+        "checkout": "Checkout"
+      },
+      "payment": {
+        "title": "Payment",
+        "description": "This is a test payment, so no money is charged. The order is held until {{expiresAt}}.",
+        "pay": "Pay {{amount}}",
+        "back": "Back to cart"
+      },
+      "completed": {
+        "title": "You're all set",
+        "new_key_title": "Your license key",
+        "new_key_description": "Copy it now. For security we only show the full key once.",
+        "existing_key_title": "Apps added to your license",
+        "existing_key_description": "Your existing license key now unlocks the new apps.",
+        "go_to_account": "Go to my account",
+        "continue_shopping": "Continue shopping"
+      }
+    },
+    "account": {
+      "title": "My account",
+      "description": "Your license key and the subscriptions it unlocks.",
+      "subscriptions_title": "Subscriptions",
+      "no_subscriptions": "You don't have any subscriptions yet.",
+      "browse_store": "Browse the store",
+      "license_key": {
+        "title": "License key",
+        "description": "One key unlocks every app in your active subscriptions.",
+        "masked": "•••••-•••••-•••••-•••••-•{{hint}}",
+        "issued_at": "Issued on {{date}}",
+        "none": "You'll get your license key with your first purchase."
+      },
+      "subscription": {
+        "custom": "Custom selection",
+        "renews_on": "Renews on {{date}}",
+        "ends_on": "Ends on {{date}}",
+        "cancelled": "Cancelled",
+        "expired": "Expired",
+        "cancel": "Cancel renewal",
+        "change_plan": "Change plan"
+      }
+    },
+    "change_plan": {
+      "title": "Change plan",
+      "description": "Your current plan: {{plan}}. Pick the apps or bundle you want instead.",
+      "back_to_account": "← Back to my account",
+      "cart_title": "New plan",
+      "checkout": "Change plan",
+      "new_period_notice": "Your new plan starts today with a new billing period at the price shown.",
+      "unchanged_notice": "Change the apps or the billing period to continue.",
+      "not_found": "This subscription could not be found.",
+      "not_adjustable": "Only active monthly subscriptions can be changed.",
+      "completed_title": "Plan changed",
+      "completed_description": "Your license key now unlocks the apps in your new plan.",
+      "yearly_notice": "Your new plan starts today. Yearly plans can't be changed again until they end."
     }
   },
   "api": {

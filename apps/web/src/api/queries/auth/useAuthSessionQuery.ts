@@ -9,7 +9,7 @@ export const authSessionQueryOptions = queryOptions({
   staleTime: AUTH_SESSION_STALE_TIME_MS,
   retry: false,
   queryFn: async () => {
-    const { data } = await apiClient.api.authControllerGetSession()
+    const { data } = await apiClient.api.authSessionControllerGetSession()
 
     return data.data
   },
