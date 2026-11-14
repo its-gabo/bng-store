@@ -12,11 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as GuestRouteImport } from './routes/_guest'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as GuestForgotPasswordRouteImport } from './routes/_guest/forgot-password'
 import { Route as GuestResetPasswordRouteImport } from './routes/_guest/reset-password'
 import { Route as GuestSignInRouteImport } from './routes/_guest/sign-in'
 import { Route as GuestSignUpRouteImport } from './routes/_guest/sign-up'
 import { Route as GuestVerifyEmailRouteImport } from './routes/_guest/verify-email'
+import { Route as AuthenticatedSubscriptionsSubscriptionIdChangeRouteImport } from './routes/_authenticated/subscriptions.$subscriptionId.change'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -29,6 +31,11 @@ const GuestRoute = GuestRouteImport.update({
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const GuestForgotPasswordRoute = GuestForgotPasswordRouteImport.update({
@@ -56,61 +63,79 @@ const GuestVerifyEmailRoute = GuestVerifyEmailRouteImport.update({
   path: '/verify-email',
   getParentRoute: () => GuestRoute,
 } as any)
+const AuthenticatedSubscriptionsSubscriptionIdChangeRoute =
+  AuthenticatedSubscriptionsSubscriptionIdChangeRouteImport.update({
+    id: '/subscriptions/$subscriptionId/change',
+    path: '/subscriptions/$subscriptionId/change',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/account': typeof AuthenticatedAccountRoute
   '/forgot-password': typeof GuestForgotPasswordRoute
   '/reset-password': typeof GuestResetPasswordRoute
   '/sign-in': typeof GuestSignInRoute
   '/sign-up': typeof GuestSignUpRoute
   '/verify-email': typeof GuestVerifyEmailRoute
+  '/subscriptions/$subscriptionId/change': typeof AuthenticatedSubscriptionsSubscriptionIdChangeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
+  '/account': typeof AuthenticatedAccountRoute
   '/forgot-password': typeof GuestForgotPasswordRoute
   '/reset-password': typeof GuestResetPasswordRoute
   '/sign-in': typeof GuestSignInRoute
   '/sign-up': typeof GuestSignUpRoute
   '/verify-email': typeof GuestVerifyEmailRoute
+  '/subscriptions/$subscriptionId/change': typeof AuthenticatedSubscriptionsSubscriptionIdChangeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_guest': typeof GuestRouteWithChildren
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_guest/forgot-password': typeof GuestForgotPasswordRoute
   '/_guest/reset-password': typeof GuestResetPasswordRoute
   '/_guest/sign-in': typeof GuestSignInRoute
   '/_guest/sign-up': typeof GuestSignUpRoute
   '/_guest/verify-email': typeof GuestVerifyEmailRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/subscriptions/$subscriptionId/change': typeof AuthenticatedSubscriptionsSubscriptionIdChangeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/account'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
     | '/verify-email'
+    | '/subscriptions/$subscriptionId/change'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/account'
     | '/forgot-password'
     | '/reset-password'
     | '/sign-in'
     | '/sign-up'
     | '/verify-email'
+    | '/subscriptions/$subscriptionId/change'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_guest'
+    | '/_authenticated/account'
     | '/_guest/forgot-password'
     | '/_guest/reset-password'
     | '/_guest/sign-in'
     | '/_guest/sign-up'
     | '/_guest/verify-email'
     | '/_authenticated/'
+    | '/_authenticated/subscriptions/$subscriptionId/change'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -139,6 +164,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_guest/forgot-password': {
@@ -176,15 +208,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestVerifyEmailRouteImport
       parentRoute: typeof GuestRoute
     }
+    '/_authenticated/subscriptions/$subscriptionId/change': {
+      id: '/_authenticated/subscriptions/$subscriptionId/change'
+      path: '/subscriptions/$subscriptionId/change'
+      fullPath: '/subscriptions/$subscriptionId/change'
+      preLoaderRoute: typeof AuthenticatedSubscriptionsSubscriptionIdChangeRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedSubscriptionsSubscriptionIdChangeRoute: typeof AuthenticatedSubscriptionsSubscriptionIdChangeRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedSubscriptionsSubscriptionIdChangeRoute:
+    AuthenticatedSubscriptionsSubscriptionIdChangeRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

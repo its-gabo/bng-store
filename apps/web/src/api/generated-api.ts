@@ -141,6 +141,18 @@ export interface GetSessionResponse {
   };
 }
 
+export interface GetMyLicenseKeyResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    keyHint: string;
+    /** @format date-time */
+    issuedAt: string;
+  } | null;
+}
+
 export interface ListMySubscriptionsResponse {
   /** @minLength 1 */
   code: string;
@@ -167,7 +179,6 @@ export interface ListMySubscriptionsResponse {
     /** @format date-time */
     currentPeriodEnd: string;
     cancelAtPeriodEnd: boolean;
-    licenseKeyHint: string | null;
   }[];
 }
 
@@ -184,6 +195,8 @@ export type StoreSelectionBody =
       billingPeriod: "monthly" | "yearly";
       /** @format uuid */
       bundleId: string;
+      /** @maxItems 50 */
+      extraApplicationIds?: string[];
     }
   | {
       billingPeriod: "monthly" | "yearly";
@@ -282,6 +295,9 @@ export interface QuoteCustomSelectionResponse {
       name: string;
       /** @min 0 */
       amountMinor: number;
+      extraApplicationIds: string[];
+      /** @min 0 */
+      totalAmountMinor: number;
       /** @min 0 */
       savingsMinor: number;
     } | null;
@@ -766,6 +782,21 @@ export class BngStoreApi<
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags MyLicenseKey
+     * @name MyLicenseKeyControllerGetMyLicenseKey
+     * @request GET:/api/v1/me/license-key
+     */
+    myLicenseKeyControllerGetMyLicenseKey: (params: RequestParams = {}) =>
+      this.request<GetMyLicenseKeyResponse, ApiErrorResponse>({
+        path: `/api/v1/me/license-key`,
+        method: "GET",
         format: "json",
         ...params,
       }),

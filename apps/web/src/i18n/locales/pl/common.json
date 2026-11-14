@@ -17,6 +17,10 @@
       "missing": "Brakuje tokenu weryfikacyjnego"
     }
   },
+  "navigation": {
+    "store": "Sklep",
+    "account": "Moje konto"
+  },
   "pages": {
     "sign_in": {
       "title": "Witaj ponownie",
@@ -88,9 +92,99 @@
       }
     },
     "home": {
-      "title": "Witaj, {{name}}",
-      "signed_in_as": "Zalogowano jako {{email}}",
       "sign_out": "Wyloguj się"
+    },
+    "store": {
+      "title": "Zbuduj swoją licencję",
+      "description": "Wybierz potrzebne aplikacje Craft albo pakiet. Wszystko, co kupisz, odblokowuje jeden klucz licencyjny.",
+      "catalog_unavailable": "Sklep jest teraz niedostępny. Spróbuj ponownie później.",
+      "bundles_title": "Pakiety",
+      "applications_title": "Aplikacje",
+      "per_month": " / mies.",
+      "per_year": " / rok",
+      "billing_period": {
+        "label": "Okres rozliczeniowy",
+        "monthly": "Miesięcznie",
+        "yearly": "Rocznie"
+      },
+      "application": {
+        "in_bundle": "W pakiecie",
+        "owned": "Masz już w licencji"
+      },
+      "bundle": {
+        "application_count_one": "{{count}} aplikacja",
+        "application_count_few": "{{count}} aplikacje",
+        "application_count_many": "{{count}} aplikacji",
+        "application_count_other": "{{count}} aplikacji",
+        "includes_owned": "Zawiera aplikacje, które już masz"
+      },
+      "suggestion": {
+        "title_savings": "Zaoszczędź {{savings}} z pakietem {{bundle}}",
+        "title_same_price": "Pakiet {{bundle}} w tej samej cenie",
+        "description": "Pakiet obejmuje wszystkie wybrane aplikacje i jeszcze więcej.",
+        "description_with_extras": "Pakiet zastępuje część wybranych aplikacji; {{extras}} zostają jako dodatki.",
+        "switch": "Przejdź na {{bundle}}"
+      },
+      "cart": {
+        "title": "Twoja licencja",
+        "empty": "Wybierz aplikacje lub pakiet, aby zobaczyć cenę.",
+        "bundle_line": "Pakiet {{bundle}}",
+        "remove": "Usuń {{name}}",
+        "total": "Razem",
+        "checkout": "Przejdź do płatności"
+      },
+      "payment": {
+        "title": "Płatność",
+        "description": "To płatność testowa, więc nic nie zostanie pobrane. Zamówienie czeka do {{expiresAt}}.",
+        "pay": "Zapłać {{amount}}",
+        "back": "Wróć do koszyka"
+      },
+      "completed": {
+        "title": "Gotowe",
+        "new_key_title": "Twój klucz licencyjny",
+        "new_key_description": "Skopiuj go teraz. Ze względów bezpieczeństwa pełny klucz pokazujemy tylko raz.",
+        "existing_key_title": "Aplikacje dodane do licencji",
+        "existing_key_description": "Twój obecny klucz licencyjny odblokowuje teraz nowe aplikacje.",
+        "go_to_account": "Przejdź do konta",
+        "continue_shopping": "Kontynuuj zakupy"
+      }
+    },
+    "account": {
+      "title": "Moje konto",
+      "description": "Twój klucz licencyjny i subskrypcje, które odblokowuje.",
+      "subscriptions_title": "Subskrypcje",
+      "no_subscriptions": "Nie masz jeszcze żadnych subskrypcji.",
+      "browse_store": "Przejdź do sklepu",
+      "license_key": {
+        "title": "Klucz licencyjny",
+        "description": "Jeden klucz odblokowuje wszystkie aplikacje z aktywnych subskrypcji.",
+        "masked": "•••••-•••••-•••••-•••••-•{{hint}}",
+        "issued_at": "Wydany {{date}}",
+        "none": "Klucz licencyjny otrzymasz przy pierwszym zakupie."
+      },
+      "subscription": {
+        "custom": "Własny wybór",
+        "renews_on": "Odnawia się {{date}}",
+        "ends_on": "Kończy się {{date}}",
+        "cancelled": "Anulowana",
+        "expired": "Wygasła",
+        "cancel": "Anuluj odnawianie",
+        "change_plan": "Zmień plan"
+      }
+    },
+    "change_plan": {
+      "title": "Zmień plan",
+      "description": "Twój obecny plan: {{plan}}. Wybierz aplikacje lub pakiet, które chcesz mieć zamiast niego.",
+      "back_to_account": "← Wróć do konta",
+      "cart_title": "Nowy plan",
+      "checkout": "Zmień plan",
+      "new_period_notice": "Nowy plan zaczyna się dziś, z nowym okresem rozliczeniowym i pokazaną ceną.",
+      "unchanged_notice": "Zmień aplikacje lub okres rozliczeniowy, aby kontynuować.",
+      "not_found": "Nie znaleziono tej subskrypcji.",
+      "not_adjustable": "Zmienić można tylko aktywne subskrypcje miesięczne.",
+      "completed_title": "Plan zmieniony",
+      "completed_description": "Twój klucz licencyjny odblokowuje teraz aplikacje z nowego planu.",
+      "yearly_notice": "Nowy plan zaczyna się dziś. Planu rocznego nie można ponownie zmienić przed jego końcem."
     }
   },
   "api": {

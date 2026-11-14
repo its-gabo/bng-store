@@ -21,7 +21,8 @@ export function useAuthSignUpMutation(
 
   return useMutation({
     mutationFn: async (values: SignUpEmailBody) => {
-      const { data } = await apiClient.api.authControllerSignUpEmail(values)
+      const { data } =
+        await apiClient.api.authRegistrationControllerSignUpEmail(values)
 
       return data
     },

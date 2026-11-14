@@ -21,9 +21,10 @@ export function useAuthVerifyEmailQuery(
         setTimeout(resolve, VERIFY_EMAIL_MIN_PENDING_MS)
       )
 
-      const { data } = await apiClient.api.authControllerVerifyEmail({
-        token,
-      })
+      const { data } =
+        await apiClient.api.authEmailVerificationControllerVerifyEmail({
+          token,
+        })
 
       return data
     },
