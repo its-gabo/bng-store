@@ -3,7 +3,7 @@
   "paths": {
     "/api/v1/auth/sign-up/email": {
       "post": {
-        "operationId": "AuthController_signUpEmail",
+        "operationId": "AuthRegistrationController_signUpEmail",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -25,16 +25,26 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthRegistration"
         ]
       }
     },
     "/api/v1/auth/sign-in/email": {
       "post": {
-        "operationId": "AuthController_signInEmail",
+        "operationId": "AuthSessionController_signInEmail",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -56,16 +66,26 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthSession"
         ]
       }
     },
     "/api/v1/auth/sign-out": {
       "post": {
-        "operationId": "AuthController_signOut",
+        "operationId": "AuthSessionController_signOut",
         "parameters": [],
         "responses": {
           "200": {
@@ -77,16 +97,26 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthSession"
         ]
       }
     },
     "/api/v1/auth/session": {
       "get": {
-        "operationId": "AuthController_getSession",
+        "operationId": "AuthSessionController_getSession",
         "parameters": [],
         "responses": {
           "200": {
@@ -98,16 +128,26 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthSession"
         ]
       }
     },
     "/api/v1/auth/forgot-password": {
       "post": {
-        "operationId": "AuthController_forgotPassword",
+        "operationId": "AuthPasswordController_forgotPassword",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -129,16 +169,26 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthPassword"
         ]
       }
     },
     "/api/v1/auth/reset-password": {
       "post": {
-        "operationId": "AuthController_resetPassword",
+        "operationId": "AuthPasswordController_resetPassword",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -160,16 +210,26 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthPassword"
         ]
       }
     },
     "/api/v1/auth/verify-email": {
       "get": {
-        "operationId": "AuthController_verifyEmail",
+        "operationId": "AuthEmailVerificationController_verifyEmail",
         "parameters": [
           {
             "name": "token",
@@ -191,10 +251,329 @@
                 }
               }
             }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "Auth"
+          "AuthEmailVerification"
+        ]
+      }
+    },
+    "/api/v1/store/catalog": {
+      "get": {
+        "operationId": "StoreCatalogController_getCatalog",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCatalogResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "StoreCatalog"
+        ]
+      }
+    },
+    "/api/v1/store/quote": {
+      "post": {
+        "operationId": "StoreCatalogController_quoteCustomSelection",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuoteCustomSelectionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteCustomSelectionResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "StoreCatalog"
+        ]
+      }
+    },
+    "/api/v1/store/checkout": {
+      "post": {
+        "operationId": "StoreCheckoutController_checkoutSelection",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreSelectionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutSelectionResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "StoreCheckout"
+        ]
+      }
+    },
+    "/api/v1/store/payments/mock/{paymentReference}/confirm": {
+      "post": {
+        "operationId": "StoreCheckoutController_confirmMockPayment",
+        "parameters": [
+          {
+            "name": "paymentReference",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "minLength": 1,
+              "maxLength": 255,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmMockPaymentResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "StoreCheckout"
+        ]
+      }
+    },
+    "/api/v1/me/subscriptions": {
+      "get": {
+        "operationId": "MySubscriptionsController_listMySubscriptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMySubscriptionsResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "MySubscriptions"
+        ]
+      }
+    },
+    "/api/v1/me/subscriptions/{subscriptionId}/cancel": {
+      "post": {
+        "operationId": "MySubscriptionsController_cancelMySubscription",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CancelMySubscriptionResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "MySubscriptions"
+        ]
+      }
+    },
+    "/api/v1/me/subscriptions/{subscriptionId}/adjustments": {
+      "post": {
+        "operationId": "MySubscriptionsController_requestMySubscriptionAdjustment",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreSelectionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestMySubscriptionAdjustmentResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "MySubscriptions"
+        ]
+      }
+    },
+    "/api/v1/me/license-key": {
+      "get": {
+        "operationId": "MyLicenseKeyController_getMyLicenseKey",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMyLicenseKeyResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "MyLicenseKey"
         ]
       }
     }
@@ -209,6 +588,142 @@
   "servers": [],
   "components": {
     "schemas": {
+      "VerifyEmailResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "ApiErrorResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "reason"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "reason": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "path",
+                "message"
+              ],
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ForgotPasswordBody": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "minLength": 3,
+            "format": "email",
+            "type": "string"
+          }
+        }
+      },
+      "ForgotPasswordResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "ResetPasswordBody": {
+        "type": "object",
+        "required": [
+          "token",
+          "password"
+        ],
+        "properties": {
+          "token": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "password": {
+            "minLength": 8,
+            "type": "string"
+          }
+        }
+      },
+      "ResetPasswordResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
       "SignUpEmailBody": {
         "type": "object",
         "required": [
@@ -233,6 +748,7 @@
           "redirectTo": {
             "minLength": 1,
             "maxLength": 2048,
+            "format": "safe-redirect-path",
             "type": "string"
           }
         }
@@ -268,6 +784,7 @@
         "properties": {
           "email": {
             "minLength": 3,
+            "format": "email",
             "type": "string"
           },
           "password": {
@@ -308,6 +825,7 @@
                 ],
                 "properties": {
                   "id": {
+                    "format": "uuid",
                     "type": "string"
                   },
                   "email": {
@@ -383,6 +901,7 @@
                 ],
                 "properties": {
                   "id": {
+                    "format": "uuid",
                     "type": "string"
                   },
                   "email": {
@@ -401,19 +920,173 @@
           }
         }
       },
-      "ForgotPasswordBody": {
+      "GetMyLicenseKeyResponse": {
         "type": "object",
         "required": [
-          "email"
+          "code",
+          "message",
+          "data"
         ],
         "properties": {
-          "email": {
-            "minLength": 3,
+          "code": {
+            "minLength": 1,
             "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "keyHint",
+                  "issuedAt"
+                ],
+                "properties": {
+                  "keyHint": {
+                    "type": "string"
+                  },
+                  "issuedAt": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         }
       },
-      "ForgotPasswordResponse": {
+      "ListMySubscriptionsResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "status",
+                "billingPeriod",
+                "bundle",
+                "applications",
+                "currentPeriodStart",
+                "currentPeriodEnd",
+                "cancelAtPeriodEnd"
+              ],
+              "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "status": {
+                  "anyOf": [
+                    {
+                      "const": "active",
+                      "type": "string"
+                    },
+                    {
+                      "const": "cancelled",
+                      "type": "string"
+                    },
+                    {
+                      "const": "expired",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "billingPeriod": {
+                  "anyOf": [
+                    {
+                      "const": "monthly",
+                      "type": "string"
+                    },
+                    {
+                      "const": "yearly",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "bundle": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "name"
+                      ],
+                      "properties": {
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "applications": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "slug",
+                      "name"
+                    ],
+                    "properties": {
+                      "id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "currentPeriodStart": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "currentPeriodEnd": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "cancelAtPeriodEnd": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "CancelMySubscriptionResponse": {
         "type": "object",
         "required": [
           "code",
@@ -435,24 +1108,76 @@
           }
         }
       },
-      "ResetPasswordBody": {
-        "type": "object",
-        "required": [
-          "token",
-          "password"
-        ],
-        "properties": {
-          "token": {
-            "minLength": 1,
-            "type": "string"
+      "StoreSelectionBody": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "billingPeriod",
+              "bundleId"
+            ],
+            "properties": {
+              "billingPeriod": {
+                "anyOf": [
+                  {
+                    "const": "monthly",
+                    "type": "string"
+                  },
+                  {
+                    "const": "yearly",
+                    "type": "string"
+                  }
+                ]
+              },
+              "bundleId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "extraApplicationIds": {
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              }
+            }
           },
-          "password": {
-            "minLength": 8,
-            "type": "string"
+          {
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "billingPeriod",
+              "applicationIds"
+            ],
+            "properties": {
+              "billingPeriod": {
+                "anyOf": [
+                  {
+                    "const": "monthly",
+                    "type": "string"
+                  },
+                  {
+                    "const": "yearly",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationIds": {
+                "minItems": 1,
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              }
+            }
           }
-        }
+        ]
       },
-      "ResetPasswordResponse": {
+      "RequestMySubscriptionAdjustmentResponse": {
         "type": "object",
         "required": [
           "code",
@@ -470,11 +1195,98 @@
           },
           "data": {
             "type": "object",
-            "properties": {}
+            "required": [
+              "orderId",
+              "kind",
+              "status",
+              "billingPeriod",
+              "totalAmountMinor",
+              "currency",
+              "paymentProvider",
+              "paymentReference",
+              "expiresAt"
+            ],
+            "properties": {
+              "orderId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "kind": {
+                "anyOf": [
+                  {
+                    "const": "purchase",
+                    "type": "string"
+                  },
+                  {
+                    "const": "adjustment",
+                    "type": "string"
+                  },
+                  {
+                    "const": "renewal",
+                    "type": "string"
+                  }
+                ]
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "const": "pending",
+                    "type": "string"
+                  },
+                  {
+                    "const": "paid",
+                    "type": "string"
+                  },
+                  {
+                    "const": "failed",
+                    "type": "string"
+                  },
+                  {
+                    "const": "cancelled",
+                    "type": "string"
+                  },
+                  {
+                    "const": "expired",
+                    "type": "string"
+                  }
+                ]
+              },
+              "billingPeriod": {
+                "anyOf": [
+                  {
+                    "const": "monthly",
+                    "type": "string"
+                  },
+                  {
+                    "const": "yearly",
+                    "type": "string"
+                  }
+                ]
+              },
+              "totalAmountMinor": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "currency": {
+                "const": "PLN",
+                "type": "string"
+              },
+              "paymentProvider": {
+                "const": "mock",
+                "type": "string"
+              },
+              "paymentReference": {
+                "type": "string"
+              },
+              "expiresAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            }
           }
         }
       },
-      "VerifyEmailResponse": {
+      "GetCatalogResponse": {
         "type": "object",
         "required": [
           "code",
@@ -492,7 +1304,442 @@
           },
           "data": {
             "type": "object",
-            "properties": {}
+            "required": [
+              "currency",
+              "applications",
+              "bundles"
+            ],
+            "properties": {
+              "currency": {
+                "const": "PLN",
+                "type": "string"
+              },
+              "applications": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "slug",
+                    "name",
+                    "description",
+                    "prices"
+                  ],
+                  "properties": {
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "prices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "billingPeriod",
+                          "amountMinor"
+                        ],
+                        "properties": {
+                          "billingPeriod": {
+                            "anyOf": [
+                              {
+                                "const": "monthly",
+                                "type": "string"
+                              },
+                              {
+                                "const": "yearly",
+                                "type": "string"
+                              }
+                            ]
+                          },
+                          "amountMinor": {
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "bundles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "slug",
+                    "name",
+                    "description",
+                    "applicationIds",
+                    "prices"
+                  ],
+                  "properties": {
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "slug": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "applicationIds": {
+                      "type": "array",
+                      "items": {
+                        "format": "uuid",
+                        "type": "string"
+                      }
+                    },
+                    "prices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "billingPeriod",
+                          "amountMinor"
+                        ],
+                        "properties": {
+                          "billingPeriod": {
+                            "anyOf": [
+                              {
+                                "const": "monthly",
+                                "type": "string"
+                              },
+                              {
+                                "const": "yearly",
+                                "type": "string"
+                              }
+                            ]
+                          },
+                          "amountMinor": {
+                            "minimum": 0,
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "QuoteCustomSelectionBody": {
+        "type": "object",
+        "required": [
+          "billingPeriod",
+          "applicationIds"
+        ],
+        "properties": {
+          "billingPeriod": {
+            "anyOf": [
+              {
+                "const": "monthly",
+                "type": "string"
+              },
+              {
+                "const": "yearly",
+                "type": "string"
+              }
+            ]
+          },
+          "applicationIds": {
+            "minItems": 1,
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "QuoteCustomSelectionResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "billingPeriod",
+              "currency",
+              "totalAmountMinor",
+              "items",
+              "suggestedBundle"
+            ],
+            "properties": {
+              "billingPeriod": {
+                "anyOf": [
+                  {
+                    "const": "monthly",
+                    "type": "string"
+                  },
+                  {
+                    "const": "yearly",
+                    "type": "string"
+                  }
+                ]
+              },
+              "currency": {
+                "const": "PLN",
+                "type": "string"
+              },
+              "totalAmountMinor": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "applicationId",
+                    "amountMinor"
+                  ],
+                  "properties": {
+                    "applicationId": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "amountMinor": {
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "suggestedBundle": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "bundleId",
+                      "slug",
+                      "name",
+                      "amountMinor",
+                      "extraApplicationIds",
+                      "totalAmountMinor",
+                      "savingsMinor"
+                    ],
+                    "properties": {
+                      "bundleId": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "slug": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "amountMinor": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "extraApplicationIds": {
+                        "type": "array",
+                        "items": {
+                          "format": "uuid",
+                          "type": "string"
+                        }
+                      },
+                      "totalAmountMinor": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "savingsMinor": {
+                        "minimum": 0,
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "CheckoutSelectionResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "orderId",
+              "kind",
+              "status",
+              "billingPeriod",
+              "totalAmountMinor",
+              "currency",
+              "paymentProvider",
+              "paymentReference",
+              "expiresAt"
+            ],
+            "properties": {
+              "orderId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "kind": {
+                "anyOf": [
+                  {
+                    "const": "purchase",
+                    "type": "string"
+                  },
+                  {
+                    "const": "adjustment",
+                    "type": "string"
+                  },
+                  {
+                    "const": "renewal",
+                    "type": "string"
+                  }
+                ]
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "const": "pending",
+                    "type": "string"
+                  },
+                  {
+                    "const": "paid",
+                    "type": "string"
+                  },
+                  {
+                    "const": "failed",
+                    "type": "string"
+                  },
+                  {
+                    "const": "cancelled",
+                    "type": "string"
+                  },
+                  {
+                    "const": "expired",
+                    "type": "string"
+                  }
+                ]
+              },
+              "billingPeriod": {
+                "anyOf": [
+                  {
+                    "const": "monthly",
+                    "type": "string"
+                  },
+                  {
+                    "const": "yearly",
+                    "type": "string"
+                  }
+                ]
+              },
+              "totalAmountMinor": {
+                "minimum": 0,
+                "type": "integer"
+              },
+              "currency": {
+                "const": "PLN",
+                "type": "string"
+              },
+              "paymentProvider": {
+                "const": "mock",
+                "type": "string"
+              },
+              "paymentReference": {
+                "type": "string"
+              },
+              "expiresAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "ConfirmMockPaymentResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "orderId",
+              "subscriptionId",
+              "licenseKey"
+            ],
+            "properties": {
+              "orderId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "subscriptionId": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "licenseKey": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
           }
         }
       }

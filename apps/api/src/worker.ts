@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { config } from 'dotenv';
 
-import { OutboxWorkerModule } from './outbox/outbox-worker.module';
+import { WorkerModule } from './worker.module';
 
 config({
   path: ['.env', '../../.env'],
@@ -9,7 +9,7 @@ config({
 });
 
 async function bootstrap() {
-  const app = await NestFactory.createApplicationContext(OutboxWorkerModule);
+  const app = await NestFactory.createApplicationContext(WorkerModule);
 
   app.enableShutdownHooks();
 }

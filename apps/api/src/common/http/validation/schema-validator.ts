@@ -30,7 +30,7 @@ export const buildSchemaValidator = (
         throw new ValidationException(type, checker.Errors(value));
       }
 
-      return value;
+      return Value.Decode(schema, value);
     },
   };
 };

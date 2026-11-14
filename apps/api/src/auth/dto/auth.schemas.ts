@@ -1,37 +1,45 @@
 import { Type } from '@sinclair/typebox';
 
 import { createApiSuccessResponseSchema } from '../../common/http/response/response.schemas';
+import {
+  emailSchema,
+  opaqueTokenSchema,
+  passwordSchema,
+  personNameSchema,
+  safeRedirectPathSchema,
+  uuidSchema,
+} from '../../common/http/validation/validation.schemas';
 
 export const authUserSchema = Type.Object({
-  id: Type.String(),
+  id: uuidSchema,
   email: Type.String({ minLength: 3 }),
   name: Type.String(),
   emailVerified: Type.Boolean(),
 });
 
 export const authSignUpBodySchema = Type.Object({
-  email: Type.String({ minLength: 3, format: 'email' }),
-  password: Type.String({ minLength: 8 }),
-  name: Type.String({ minLength: 1 }),
-  redirectTo: Type.Optional(Type.String({ minLength: 1, maxLength: 2048 })),
+  email: emailSchema,
+  password: passwordSchema,
+  name: personNameSchema,
+  redirectTo: Type.Optional(safeRedirectPathSchema),
 });
 
 export const authSignInBodySchema = Type.Object({
-  email: Type.String({ minLength: 3 }),
-  password: Type.String({ minLength: 8 }),
+  email: emailSchema,
+  password: passwordSchema,
 });
 
 export const authForgotPasswordBodySchema = Type.Object({
-  email: Type.String({ minLength: 3 }),
+  email: emailSchema,
 });
 
 export const authResetPasswordBodySchema = Type.Object({
-  token: Type.String({ minLength: 1 }),
-  password: Type.String({ minLength: 8 }),
+  token: opaqueTokenSchema,
+  password: passwordSchema,
 });
 
 export const authVerifyEmailQuerySchema = Type.Object({
-  token: Type.String({ minLength: 1 }),
+  token: opaqueTokenSchema,
 });
 
 export const authEmptyDataSchema = Type.Object({});
