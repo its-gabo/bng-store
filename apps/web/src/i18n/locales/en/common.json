@@ -129,7 +129,8 @@
       "store.subscription.not_adjustable": "Only active monthly subscriptions can be changed.",
       "store.subscription.not_cancellable": "This subscription is already cancelled or has ended.",
       "common.request_failed": "The request could not be completed.",
-      "common.internal_error": "Something went wrong on our side. Please try again later."
+      "common.internal_error": "Something went wrong on our side. Please try again later.",
+      "common.too_many_requests": "Too many attempts. Please wait a moment and try again."
     }
   }
 }

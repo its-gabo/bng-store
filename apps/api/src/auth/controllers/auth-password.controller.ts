@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
+import { SensitiveRateLimit } from '../../common/http/rate-limit/sensitive-rate-limit.decorator';
 import { createApiSuccessResponse } from '../../common/http/response/response.factory';
 import { Validate } from '../../common/http/validation';
 import { AUTH_SUCCESS_RESULTS } from '../dto/auth.responses';
@@ -17,6 +18,7 @@ import type {
 } from '../dto/auth.dto.types';
 
 @Controller('auth')
+@SensitiveRateLimit()
 export class AuthPasswordController {
   constructor(
     private readonly authPasswordResetService: AuthPasswordResetService,

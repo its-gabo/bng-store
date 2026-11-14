@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
+import { SensitiveRateLimit } from '../../common/http/rate-limit/sensitive-rate-limit.decorator';
 import { createApiSuccessResponse } from '../../common/http/response/response.factory';
 import { Validate } from '../../common/http/validation';
 import { AUTH_SUCCESS_RESULTS } from '../dto/auth.responses';
@@ -21,6 +22,7 @@ export class AuthRegistrationController {
   ) {}
 
   @Post('sign-up/email')
+  @SensitiveRateLimit()
   @Validate({
     request: [{ type: 'body', schema: authSignUpBodySchema }],
     response: authEmptySuccessResponseSchema,

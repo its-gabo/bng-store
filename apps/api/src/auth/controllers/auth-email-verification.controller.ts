@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 
+import { SensitiveRateLimit } from '../../common/http/rate-limit/sensitive-rate-limit.decorator';
 import { createApiSuccessResponse } from '../../common/http/response/response.factory';
 import { Validate } from '../../common/http/validation';
 import { AUTH_SUCCESS_RESULTS } from '../dto/auth.responses';
@@ -18,6 +19,7 @@ export class AuthEmailVerificationController {
   ) {}
 
   @Get('verify-email')
+  @SensitiveRateLimit()
   @Validate({
     request: [
       {

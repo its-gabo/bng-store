@@ -4,6 +4,7 @@ import { APP_FILTER } from '@nestjs/core';
 
 import { AuthModule } from './auth/auth.module';
 import { ApiExceptionFilter } from './common/http/errors/api-exception.filter';
+import { RateLimitModule } from './common/http/rate-limit/rate-limit.module';
 import databaseConfig from './config/db/database';
 import emailConfig from './config/email/email';
 import { DbModule } from './db/db.module';
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
       envFilePath: ['.env', '../../.env'],
       load: [databaseConfig, emailConfig],
     }),
+    RateLimitModule,
     DbModule,
     OutboxModule,
     UsersModule,

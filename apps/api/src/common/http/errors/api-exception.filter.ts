@@ -1,4 +1,5 @@
 import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { ThrottlerException } from '@nestjs/throttler';
 import { match, P } from 'ts-pattern';
 
 import { DomainError } from '../../errors/domain-error';
@@ -46,6 +47,10 @@ export class ApiExceptionFilter implements ExceptionFilter {
       .with(P.instanceOf(ApiException), (apiException) => ({
         status: apiException.getStatus(),
         body: apiException.getResponse() as ApiErrorResponse,
+      }))
+      .with(P.instanceOf(ThrottlerException), () => ({
+        status: HttpStatus.TOO_MANY_REQUESTS,
+        body: HTTP_ERROR_RESPONSES.TOO_MANY_REQUESTS,
       }))
       .with(P.instanceOf(HttpException), (httpException) => ({
         status: httpException.getStatus(),
