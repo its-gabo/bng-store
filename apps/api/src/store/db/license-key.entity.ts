@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { SubscriptionEntity } from './subscription.entity';
+import { UserEntity } from '../../users/db/user.entity';
 
 import type { Relation } from 'typeorm';
 
@@ -16,18 +16,12 @@ export class LicenseKeyEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'subscription_id', type: 'uuid', unique: true })
-  subscriptionId: string;
+  @Column({ name: 'user_id', type: 'uuid', unique: true })
+  userId: string;
 
-  @OneToOne(
-    () => SubscriptionEntity,
-    (subscription) => subscription.licenseKey,
-    {
-      onDelete: 'CASCADE',
-    },
-  )
-  @JoinColumn({ name: 'subscription_id' })
-  subscription?: Relation<SubscriptionEntity>;
+  @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user?: Relation<UserEntity>;
 
   @Column({ name: 'key_hash', type: 'text', unique: true })
   keyHash: string;

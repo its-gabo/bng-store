@@ -7,6 +7,7 @@ import type {
   StorePrice,
   StoreQuote,
   StoreSelectionRequest,
+  UserLicenseKey,
   UserSubscription,
 } from '../types/store.types';
 import type {
@@ -15,6 +16,7 @@ import type {
   StorePendingOrderDto,
   StoreQuoteDto,
   StoreSelectionBody,
+  StoreUserLicenseKeyDto,
   StoreUserSubscriptionDto,
 } from './store.dto.types';
 
@@ -22,10 +24,13 @@ export const toStoreSelectionRequest = (
   body: StoreSelectionBody,
 ): StoreSelectionRequest =>
   match(body)
-    .with({ bundleId: P.string }, ({ billingPeriod, bundleId }) => ({
-      billingPeriod,
-      selection: { bundleId },
-    }))
+    .with(
+      { bundleId: P.string },
+      ({ billingPeriod, bundleId, extraApplicationIds = [] }) => ({
+        billingPeriod,
+        selection: { bundleId, extraApplicationIds },
+      }),
+    )
     .with(
       { applicationIds: P.array(P.string) },
       ({ billingPeriod, applicationIds }) => ({
@@ -72,6 +77,8 @@ export const toStoreQuoteDto = (quote: StoreQuote): StoreQuoteDto => ({
     slug: quote.suggestedBundle.slug,
     name: quote.suggestedBundle.name,
     amountMinor: quote.suggestedBundle.amountMinor,
+    extraApplicationIds: quote.suggestedBundle.extraApplicationIds,
+    totalAmountMinor: quote.suggestedBundle.totalAmountMinor,
     savingsMinor: quote.suggestedBundle.savingsMinor,
   },
 });
@@ -116,5 +123,12 @@ export const toStoreUserSubscriptionDto = (
   currentPeriodStart: subscription.currentPeriodStart.toISOString(),
   currentPeriodEnd: subscription.currentPeriodEnd.toISOString(),
   cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
-  licenseKeyHint: subscription.licenseKeyHint,
 });
+
+export const toStoreUserLicenseKeyDto = (
+  licenseKey: UserLicenseKey | null,
+): StoreUserLicenseKeyDto =>
+  licenseKey && {
+    keyHint: licenseKey.keyHint,
+    issuedAt: licenseKey.issuedAt.toISOString(),
+  };

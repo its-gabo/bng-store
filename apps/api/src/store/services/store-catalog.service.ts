@@ -10,7 +10,7 @@ import {
 } from '../mappers/catalog.mappers';
 import { StoreCatalogRepository } from '../repository/store-catalog.repository';
 import {
-  findCheapestBundleCoveringSelection,
+  findMostSavingBundleForSelection,
   listBundleApplicationIds,
 } from '../utils/bundle.utils';
 import {
@@ -21,6 +21,8 @@ import {
 
 import type {
   BillingPeriod,
+  PricedApplication,
+  PricedCustomSelection,
   PricedSelection,
   StoreCatalog,
   StoreQuote,
@@ -48,8 +50,8 @@ export class StoreCatalogService {
   }
 
   /**
-   * Prices a custom selection and suggests the cheapest active bundle that
-   * covers every selected application for no more than the selection costs.
+   * Prices a custom selection and suggests the bundle that saves the most
+   * when it replaces the selected applications it contains.
    */
   async quoteCustomSelection(params: {
     billingPeriod: BillingPeriod;
@@ -62,7 +64,7 @@ export class StoreCatalogService {
       applicationIds,
     );
     const suggestedBundle =
-      await this.findCheapestBundleCoveringSelection(pricedSelection);
+      await this.findMostSavingBundleForSelection(pricedSelection);
 
     return {
       billingPeriod,
@@ -71,7 +73,7 @@ export class StoreCatalogService {
       items: pricedSelection.items.map(
         ({ applicationId, unitAmountMinor }) => ({
           applicationId,
-          amountMinor: unitAmountMinor ?? 0,
+          amountMinor: unitAmountMinor,
         }),
       ),
       suggestedBundle,
@@ -84,8 +86,12 @@ export class StoreCatalogService {
     const { billingPeriod, selection } = request;
 
     return match(selection)
-      .with({ bundleId: P.string }, ({ bundleId }) =>
-        this.priceBundleSelection(billingPeriod, bundleId),
+      .with({ bundleId: P.string }, ({ bundleId, extraApplicationIds }) =>
+        this.priceBundleSelection({
+          billingPeriod,
+          bundleId,
+          extraApplicationIds,
+        }),
       )
       .with({ applicationIds: P.array(P.string) }, ({ applicationIds }) =>
         this.priceCustomSelection(billingPeriod, applicationIds),
@@ -93,10 +99,17 @@ export class StoreCatalogService {
       .exhaustive();
   }
 
-  private async priceBundleSelection(
-    billingPeriod: BillingPeriod,
-    bundleId: string,
-  ): Promise<PricedSelection> {
+  /**
+   * Prices a bundle together with extra applications bought next to it.
+   * Extras the bundle already contains are ignored.
+   */
+  private async priceBundleSelection(params: {
+    billingPeriod: BillingPeriod;
+    bundleId: string;
+    extraApplicationIds: string[];
+  }): Promise<PricedSelection> {
+    const { billingPeriod, bundleId, extraApplicationIds } = params;
+
     const bundle =
       await this.storeCatalogRepository.findActiveBundleById(bundleId);
     const bundlePrice =
@@ -106,23 +119,50 @@ export class StoreCatalogService {
       throw new DomainError(STORE_ERRORS.BUNDLE_NOT_FOUND);
     }
 
+    const bundleApplicationIds = listBundleApplicationIds(bundle);
+    const extraItems = await this.priceApplications(
+      billingPeriod,
+      extraApplicationIds.filter(
+        (applicationId) => !bundleApplicationIds.includes(applicationId),
+      ),
+    );
+
     return {
       selection: ORDER_SELECTIONS.BUNDLE,
       bundleId: bundle.id,
       billingPeriod,
       currency: STORE_SETTINGS.CURRENCY,
-      totalAmountMinor: bundlePrice.amountMinor,
-      items: listBundleApplicationIds(bundle).map((applicationId) => ({
-        applicationId,
-        unitAmountMinor: null,
-      })),
+      totalAmountMinor: bundlePrice.amountMinor + sumUnitAmounts(extraItems),
+      items: [
+        ...bundleApplicationIds.map((applicationId) => ({
+          applicationId,
+          unitAmountMinor: null,
+        })),
+        ...extraItems,
+      ],
     };
   }
 
   private async priceCustomSelection(
     billingPeriod: BillingPeriod,
     applicationIds: string[],
-  ): Promise<PricedSelection> {
+  ): Promise<PricedCustomSelection> {
+    const items = await this.priceApplications(billingPeriod, applicationIds);
+
+    return {
+      selection: ORDER_SELECTIONS.CUSTOM,
+      bundleId: null,
+      billingPeriod,
+      currency: STORE_SETTINGS.CURRENCY,
+      totalAmountMinor: sumUnitAmounts(items),
+      items,
+    };
+  }
+
+  private async priceApplications(
+    billingPeriod: BillingPeriod,
+    applicationIds: string[],
+  ): Promise<PricedApplication[]> {
     const uniqueApplicationIds = [...new Set(applicationIds)];
 
     const applications =
@@ -138,21 +178,14 @@ export class StoreCatalogService {
       throw new DomainError(STORE_ERRORS.APPLICATION_NOT_FOUND);
     }
 
-    return {
-      selection: ORDER_SELECTIONS.CUSTOM,
-      bundleId: null,
-      billingPeriod,
-      currency: STORE_SETTINGS.CURRENCY,
-      totalAmountMinor: sumUnitAmounts(items),
-      items,
-    };
+    return items;
   }
 
-  private async findCheapestBundleCoveringSelection(
-    pricedSelection: PricedSelection,
+  private async findMostSavingBundleForSelection(
+    pricedSelection: PricedCustomSelection,
   ): Promise<SuggestedBundle | null> {
     const bundles = await this.storeCatalogRepository.findActiveBundles();
 
-    return findCheapestBundleCoveringSelection(bundles, pricedSelection);
+    return findMostSavingBundleForSelection(bundles, pricedSelection);
   }
 }

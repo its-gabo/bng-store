@@ -8,6 +8,7 @@ export const STORE_SUCCESS_CODES = {
   SUBSCRIPTIONS: 'store.subscriptions.success',
   SUBSCRIPTION_CANCEL: 'store.subscription.cancel.success',
   SUBSCRIPTION_ADJUST: 'store.subscription.adjust.success',
+  LICENSE_KEY: 'store.license_key.success',
 } as const;
 
 export const STORE_SUCCESS_RESULTS = {
@@ -26,5 +27,9 @@ export const STORE_SUCCESS_RESULTS = {
   SUBSCRIPTION_ADJUST: {
     code: STORE_SUCCESS_CODES.SUBSCRIPTION_ADJUST,
     message: 'Adjustment order created',
+  },
+  LICENSE_KEY: {
+    code: STORE_SUCCESS_CODES.LICENSE_KEY,
+    message: 'License key fetched',
   },
 } as const satisfies ApiResultCatalog<typeof STORE_SUCCESS_CODES>;

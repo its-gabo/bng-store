@@ -4,7 +4,7 @@ import type { UserSubscription } from '../types/store.types';
 export const toUserSubscription = (
   subscription: SubscriptionEntity,
 ): UserSubscription => {
-  const { bundle, licenseKey, subscriptionApplications = [] } = subscription;
+  const { bundle, subscriptionApplications = [] } = subscription;
 
   return {
     id: subscription.id,
@@ -25,6 +25,5 @@ export const toUserSubscription = (
     currentPeriodStart: subscription.currentPeriodStart,
     currentPeriodEnd: subscription.currentPeriodEnd,
     cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
-    licenseKeyHint: licenseKey?.keyHint ?? null,
   };
 };

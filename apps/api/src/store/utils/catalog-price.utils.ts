@@ -4,7 +4,7 @@ import type { ApplicationEntity } from '../db/application.entity';
 import type {
   BillingPeriod,
   Currency,
-  PricedOrderItem,
+  PricedApplication,
   StorePrice,
 } from '../types/store.types';
 
@@ -31,7 +31,7 @@ export const selectStoreCurrencyPrices = (
 export const priceApplicationForPeriod = (
   application: ApplicationEntity,
   billingPeriod: BillingPeriod,
-): (PricedOrderItem & { unitAmountMinor: number })[] => {
+): PricedApplication[] => {
   const price = findStoreCurrencyPrice(application.prices ?? [], billingPeriod);
 
   if (!price) return [];
@@ -41,5 +41,5 @@ export const priceApplicationForPeriod = (
   ];
 };
 
-export const sumUnitAmounts = (items: { unitAmountMinor: number }[]): number =>
+export const sumUnitAmounts = (items: PricedApplication[]): number =>
   items.reduce((total, { unitAmountMinor }) => total + unitAmountMinor, 0);

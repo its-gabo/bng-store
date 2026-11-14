@@ -25,7 +25,8 @@ export type PaymentStatus = ValueOf<typeof PAYMENT_STATUSES>;
 export type Currency = ValueOf<typeof CURRENCIES>;
 
 export type StoreSelectionInput =
-  { bundleId: string } | { applicationIds: string[] };
+  | { bundleId: string; extraApplicationIds: string[] }
+  | { applicationIds: string[] };
 
 export type StoreSelectionRequest = {
   billingPeriod: BillingPeriod;
@@ -37,6 +38,11 @@ export type PricedOrderItem = {
   unitAmountMinor: number | null;
 };
 
+export type PricedApplication = {
+  applicationId: string;
+  unitAmountMinor: number;
+};
+
 export type PricedSelection = {
   selection: OrderSelection;
   bundleId: string | null;
@@ -44,6 +50,10 @@ export type PricedSelection = {
   currency: Currency;
   totalAmountMinor: number;
   items: PricedOrderItem[];
+};
+
+export type PricedCustomSelection = Omit<PricedSelection, 'items'> & {
+  items: PricedApplication[];
 };
 
 export type StorePrice = {
@@ -79,6 +89,8 @@ export type SuggestedBundle = {
   slug: string;
   name: string;
   amountMinor: number;
+  extraApplicationIds: string[];
+  totalAmountMinor: number;
   savingsMinor: number;
 };
 
@@ -121,7 +133,11 @@ export type UserSubscription = {
   currentPeriodStart: Date;
   currentPeriodEnd: Date;
   cancelAtPeriodEnd: boolean;
-  licenseKeyHint: string | null;
+};
+
+export type UserLicenseKey = {
+  keyHint: string;
+  issuedAt: Date;
 };
 
 export type IssuedLicenseKey = {

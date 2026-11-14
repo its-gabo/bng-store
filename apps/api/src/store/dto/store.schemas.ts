@@ -41,9 +41,17 @@ export const storeQuoteBodySchema = Type.Object({
   applicationIds: storeApplicationIdsSchema,
 });
 
+const storeExtraApplicationIdsSchema = Type.Array(uuidSchema, {
+  maxItems: STORE_SETTINGS.MAX_SELECTED_APPLICATIONS,
+});
+
 export const storeSelectionBodySchema = Type.Union([
   Type.Object(
-    { billingPeriod: storeBillingPeriodSchema, bundleId: uuidSchema },
+    {
+      billingPeriod: storeBillingPeriodSchema,
+      bundleId: uuidSchema,
+      extraApplicationIds: Type.Optional(storeExtraApplicationIdsSchema),
+    },
     { additionalProperties: false },
   ),
   Type.Object(
@@ -88,6 +96,8 @@ export const storeSuggestedBundleSchema = Type.Object({
   slug: Type.String(),
   name: Type.String(),
   amountMinor: amountMinorSchema,
+  extraApplicationIds: Type.Array(uuidSchema),
+  totalAmountMinor: amountMinorSchema,
   savingsMinor: amountMinorSchema,
 });
 
@@ -147,12 +157,21 @@ export const storeUserSubscriptionSchema = Type.Object({
   currentPeriodStart: dateTimeSchema,
   currentPeriodEnd: dateTimeSchema,
   cancelAtPeriodEnd: Type.Boolean(),
-  licenseKeyHint: Type.Union([Type.String(), Type.Null()]),
 });
 
 export const storeUserSubscriptionsDataSchema = Type.Array(
   storeUserSubscriptionSchema,
 );
+
+export const storeUserLicenseKeySchema = Type.Object({
+  keyHint: Type.String(),
+  issuedAt: dateTimeSchema,
+});
+
+export const storeUserLicenseKeyDataSchema = Type.Union([
+  storeUserLicenseKeySchema,
+  Type.Null(),
+]);
 
 export const storeEmptyDataSchema = Type.Object({});
 
@@ -167,5 +186,7 @@ export const storeConfirmedOrderSuccessResponseSchema =
   createApiSuccessResponseSchema(storeConfirmedOrderDataSchema);
 export const storeUserSubscriptionsSuccessResponseSchema =
   createApiSuccessResponseSchema(storeUserSubscriptionsDataSchema);
+export const storeUserLicenseKeySuccessResponseSchema =
+  createApiSuccessResponseSchema(storeUserLicenseKeyDataSchema);
 export const storeEmptySuccessResponseSchema =
   createApiSuccessResponseSchema(storeEmptyDataSchema);

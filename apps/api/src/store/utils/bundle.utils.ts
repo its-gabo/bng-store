@@ -1,29 +1,38 @@
-import { findStoreCurrencyPrice } from './catalog-price.utils';
+import { findStoreCurrencyPrice, sumUnitAmounts } from './catalog-price.utils';
 
 import type { BundleEntity } from '../db/bundle.entity';
-import type { PricedSelection, SuggestedBundle } from '../types/store.types';
+import type {
+  PricedCustomSelection,
+  SuggestedBundle,
+} from '../types/store.types';
 
 export const listBundleApplicationIds = (bundle: BundleEntity): string[] =>
   (bundle.bundleApplications ?? []).map(({ applicationId }) => applicationId);
 
 /**
- * Picks the cheapest bundle that contains every selected application and
- * costs no more than the selection itself.
+ * Picks the bundle that saves the most when it replaces the selected
+ * applications it contains. Selected applications outside the bundle stay in
+ * the suggestion as extras, so the suggested total is the bundle price plus
+ * those extras and never exceeds what the selection costs on its own.
  */
-export const findCheapestBundleCoveringSelection = (
+export const findMostSavingBundleForSelection = (
   bundles: BundleEntity[],
-  pricedSelection: PricedSelection,
+  pricedSelection: PricedCustomSelection,
 ): SuggestedBundle | null => {
-  const [cheapestSuggestion] = bundles
+  const [mostSavingSuggestion] = bundles
     .flatMap((bundle) => toBundleSuggestion(bundle, pricedSelection))
-    .sort((left, right) => left.amountMinor - right.amountMinor);
+    .sort(
+      (left, right) =>
+        right.savingsMinor - left.savingsMinor ||
+        left.totalAmountMinor - right.totalAmountMinor,
+    );
 
-  return cheapestSuggestion ?? null;
+  return mostSavingSuggestion ?? null;
 };
 
 const toBundleSuggestion = (
   bundle: BundleEntity,
-  pricedSelection: PricedSelection,
+  pricedSelection: PricedCustomSelection,
 ): SuggestedBundle[] => {
   const { billingPeriod, totalAmountMinor, items } = pricedSelection;
 
@@ -32,12 +41,17 @@ const toBundleSuggestion = (
     billingPeriod,
   );
   const bundleApplicationIds = new Set(listBundleApplicationIds(bundle));
-  const coversSelection = items.every(({ applicationId }) =>
-    bundleApplicationIds.has(applicationId),
+  const extraItems = items.filter(
+    ({ applicationId }) => !bundleApplicationIds.has(applicationId),
   );
+  const containsSelectedApplication = extraItems.length < items.length;
 
-  if (!bundlePrice || !coversSelection) return [];
-  if (bundlePrice.amountMinor > totalAmountMinor) return [];
+  if (!bundlePrice || !containsSelectedApplication) return [];
+
+  const totalWithBundleAmountMinor =
+    bundlePrice.amountMinor + sumUnitAmounts(extraItems);
+
+  if (totalWithBundleAmountMinor > totalAmountMinor) return [];
 
   return [
     {
@@ -45,7 +59,9 @@ const toBundleSuggestion = (
       slug: bundle.slug,
       name: bundle.name,
       amountMinor: bundlePrice.amountMinor,
-      savingsMinor: totalAmountMinor - bundlePrice.amountMinor,
+      extraApplicationIds: extraItems.map(({ applicationId }) => applicationId),
+      totalAmountMinor: totalWithBundleAmountMinor,
+      savingsMinor: totalAmountMinor - totalWithBundleAmountMinor,
     },
   ];
 };

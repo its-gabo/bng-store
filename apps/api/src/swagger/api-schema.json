@@ -545,6 +545,37 @@
           "MySubscriptions"
         ]
       }
+    },
+    "/api/v1/me/license-key": {
+      "get": {
+        "operationId": "MyLicenseKeyController_getMyLicenseKey",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMyLicenseKeyResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "MyLicenseKey"
+        ]
+      }
     }
   },
   "info": {
@@ -889,6 +920,47 @@
           }
         }
       },
+      "GetMyLicenseKeyResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "keyHint",
+                  "issuedAt"
+                ],
+                "properties": {
+                  "keyHint": {
+                    "type": "string"
+                  },
+                  "issuedAt": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
       "ListMySubscriptionsResponse": {
         "type": "object",
         "required": [
@@ -917,8 +989,7 @@
                 "applications",
                 "currentPeriodStart",
                 "currentPeriodEnd",
-                "cancelAtPeriodEnd",
-                "licenseKeyHint"
+                "cancelAtPeriodEnd"
               ],
               "properties": {
                 "id": {
@@ -1009,16 +1080,6 @@
                 },
                 "cancelAtPeriodEnd": {
                   "type": "boolean"
-                },
-                "licenseKeyHint": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
                 }
               }
             }
@@ -1072,6 +1133,14 @@
               "bundleId": {
                 "format": "uuid",
                 "type": "string"
+              },
+              "extraApplicationIds": {
+                "maxItems": 50,
+                "type": "array",
+                "items": {
+                  "format": "uuid",
+                  "type": "string"
+                }
               }
             }
           },
@@ -1474,6 +1543,8 @@
                       "slug",
                       "name",
                       "amountMinor",
+                      "extraApplicationIds",
+                      "totalAmountMinor",
                       "savingsMinor"
                     ],
                     "properties": {
@@ -1488,6 +1559,17 @@
                         "type": "string"
                       },
                       "amountMinor": {
+                        "minimum": 0,
+                        "type": "integer"
+                      },
+                      "extraApplicationIds": {
+                        "type": "array",
+                        "items": {
+                          "format": "uuid",
+                          "type": "string"
+                        }
+                      },
+                      "totalAmountMinor": {
                         "minimum": 0,
                         "type": "integer"
                       },

@@ -8,7 +8,6 @@ import {
   PAYMENT_PROVIDERS,
 } from '../constants/store.constants';
 import { createOrderRejectedError } from '../errors/order-rejection.errors';
-import { LicenseKeyIssuer } from '../ports/license-key-issuer';
 import { StoreOrdersRepository } from '../repository/store-orders.repository';
 import { StoreSubscriptionsRepository } from '../repository/store-subscriptions.repository';
 import { calculateBillingPeriodEnd } from '../utils/billing-period.utils';
@@ -18,6 +17,7 @@ import {
 } from '../utils/order.utils';
 import { isSubscriptionAdjustable } from '../utils/subscription.utils';
 
+import { StoreLicenseKeysService } from './store-license-keys.service';
 import { StoreOwnershipService } from './store-ownership.service';
 
 import type { OrderEntity } from '../db/order.entity';
@@ -40,7 +40,7 @@ export class StoreOrderFulfillmentService {
     private readonly storeOrdersRepository: StoreOrdersRepository,
     private readonly storeSubscriptionsRepository: StoreSubscriptionsRepository,
     private readonly storeOwnershipService: StoreOwnershipService,
-    private readonly licenseKeyIssuer: LicenseKeyIssuer,
+    private readonly storeLicenseKeysService: StoreLicenseKeysService,
   ) {}
 
   /**
@@ -211,18 +211,13 @@ export class StoreOrderFulfillmentService {
       manager,
     );
 
-    const licenseKey = this.licenseKeyIssuer.issueLicenseKey();
+    const licenseKey =
+      await this.storeLicenseKeysService.issueLicenseKeyIfUserHasNone(
+        order.userId,
+        manager,
+      );
 
-    await this.storeSubscriptionsRepository.createLicenseKey(
-      { subscriptionId: subscription.id, licenseKey },
-      manager,
-    );
-
-    return {
-      orderId: order.id,
-      subscriptionId: subscription.id,
-      licenseKey: licenseKey.plainKey,
-    };
+    return { orderId: order.id, subscriptionId: subscription.id, licenseKey };
   }
 
   private async adjustSubscription(

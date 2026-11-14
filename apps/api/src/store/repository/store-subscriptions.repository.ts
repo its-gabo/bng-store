@@ -4,14 +4,12 @@ import { DataSource, LessThanOrEqual } from 'typeorm';
 
 import { UserEntity } from '../../users/db/user.entity';
 import { SUBSCRIPTION_STATUSES } from '../constants/store.constants';
-import { LicenseKeyEntity } from '../db/license-key.entity';
 import { SubscriptionApplicationEntity } from '../db/subscription-application.entity';
 import { SubscriptionEntity } from '../db/subscription.entity';
 
 import type {
   CreateSubscriptionParams,
   FindOwnedApplicationIdsParams,
-  IssuedLicenseKey,
   ReplaceSubscriptionSelectionParams,
   SubscriptionStatus,
 } from '../types/store.types';
@@ -193,7 +191,6 @@ export class StoreSubscriptionsRepository {
       where: { userId },
       relations: {
         bundle: true,
-        licenseKey: true,
         subscriptionApplications: { application: true },
       },
       order: { createdAt: 'DESC' },
@@ -235,19 +232,6 @@ export class StoreSubscriptionsRepository {
         currentPeriodEnd: LessThanOrEqual(now),
       },
       lock: { mode: 'pessimistic_write', onLocked: 'skip_locked' },
-    });
-  }
-
-  async createLicenseKey(
-    params: { subscriptionId: string; licenseKey: IssuedLicenseKey },
-    manager: EntityManager,
-  ): Promise<void> {
-    const { subscriptionId, licenseKey } = params;
-
-    await manager.insert(LicenseKeyEntity, {
-      subscriptionId,
-      keyHash: licenseKey.keyHash,
-      keyHint: licenseKey.keyHint,
     });
   }
 }

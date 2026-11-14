@@ -10,6 +10,8 @@ import type {
   storeQuoteDataSchema,
   storeQuoteSuccessResponseSchema,
   storeSelectionBodySchema,
+  storeUserLicenseKeyDataSchema,
+  storeUserLicenseKeySuccessResponseSchema,
   storeUserSubscriptionSchema,
   storeUserSubscriptionsSuccessResponseSchema,
 } from './store.schemas';
@@ -28,6 +30,10 @@ export type StoreUserSubscriptionDto = Static<
   typeof storeUserSubscriptionSchema
 >;
 
+export type StoreUserLicenseKeyDto = Static<
+  typeof storeUserLicenseKeyDataSchema
+>;
+
 export type StoreCatalogSuccessResponse = Static<
   typeof storeCatalogSuccessResponseSchema
 >;
@@ -42,6 +48,9 @@ export type StoreConfirmedOrderSuccessResponse = Static<
 >;
 export type StoreUserSubscriptionsSuccessResponse = Static<
   typeof storeUserSubscriptionsSuccessResponseSchema
+>;
+export type StoreUserLicenseKeySuccessResponse = Static<
+  typeof storeUserLicenseKeySuccessResponseSchema
 >;
 export type StoreEmptySuccessResponse = Static<
   typeof storeEmptySuccessResponseSchema

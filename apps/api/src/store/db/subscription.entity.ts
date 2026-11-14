@@ -18,7 +18,6 @@ import {
 } from '../constants/store.constants';
 
 import { BundleEntity } from './bundle.entity';
-import { LicenseKeyEntity } from './license-key.entity';
 import { OrderEntity } from './order.entity';
 import { SubscriptionApplicationEntity } from './subscription-application.entity';
 
@@ -89,9 +88,6 @@ export class SubscriptionEntity {
     (subscriptionApplication) => subscriptionApplication.subscription,
   )
   subscriptionApplications?: SubscriptionApplicationEntity[];
-
-  @OneToOne(() => LicenseKeyEntity, (licenseKey) => licenseKey.subscription)
-  licenseKey?: Relation<LicenseKeyEntity> | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
