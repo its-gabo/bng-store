@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import storeConfig from '../config/store/store';
 
-import { MockLicenseKeyIssuer } from './adapters/mock-license-key-issuer';
+import { GeneratedLicenseKeyIssuer } from './adapters/generated-license-key-issuer';
 import { MockPaymentGateway } from './adapters/mock-payment-gateway';
 import { LicenseKeyIssuer } from './ports/license-key-issuer';
 import { PaymentGateway } from './ports/payment-gateway';
@@ -27,7 +27,7 @@ import { StoreSubscriptionsService } from './services/store-subscriptions.servic
     StoreOrdersRepository,
     StoreSubscriptionsRepository,
     { provide: PaymentGateway, useClass: MockPaymentGateway },
-    { provide: LicenseKeyIssuer, useClass: MockLicenseKeyIssuer },
+    { provide: LicenseKeyIssuer, useClass: GeneratedLicenseKeyIssuer },
     StoreCatalogService,
     StoreLicenseKeysService,
     StoreOwnershipService,

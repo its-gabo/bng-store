@@ -140,11 +140,7 @@ export type UserLicenseKey = {
   issuedAt: Date;
 };
 
-export type IssuedLicenseKey = {
-  plainKey: string;
-  keyHash: string;
-  keyHint: string;
-};
+export type { IssuedLicenseKey } from '@workspace/license-keys';
 
 export type PaymentRequest = {
   amountMinor: number;
