@@ -25,12 +25,18 @@
       "persistent": true
     },
     "api#dev": {
-      "dependsOn": ["@workspace/email-templates#build"],
+      "dependsOn": [
+        "@workspace/email-templates#build",
+        "@workspace/license-keys#build"
+      ],
       "cache": false,
       "persistent": true
     },
     "api#dev:worker": {
-      "dependsOn": ["@workspace/email-templates#build"],
+      "dependsOn": [
+        "@workspace/email-templates#build",
+        "@workspace/license-keys#build"
+      ],
       "cache": false,
       "persistent": true
     }

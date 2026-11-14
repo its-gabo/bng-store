@@ -32,6 +32,7 @@
     "@nestjs/typeorm": "^12.0.2",
     "@sinclair/typebox": "^0.34.52",
     "@workspace/email-templates": "workspace:*",
+    "@workspace/license-keys": "workspace:*",
     "amqplib": "^2.2.0",
     "argon2": "^0.45.1",
     "cookie": "^2.0.1",
