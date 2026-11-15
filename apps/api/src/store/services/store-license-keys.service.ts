@@ -1,17 +1,79 @@
 import { Injectable } from '@nestjs/common';
+import {
+  hashLicenseKey,
+  isLicenseKeyFormat,
+  normalizeLicenseKey,
+} from '@workspace/license-keys';
 
+import { LICENSE_KEY_VALIDATION_STATUSES } from '../constants/store.constants';
 import { LicenseKeyIssuer } from '../ports/license-key-issuer';
 import { StoreLicenseKeysRepository } from '../repository/store-license-keys.repository';
+import { StoreSubscriptionsRepository } from '../repository/store-subscriptions.repository';
 
-import type { UserLicenseKey } from '../types/store.types';
+import type {
+  LicenseKeyValidation,
+  UserLicenseKey,
+} from '../types/store.types';
 import type { EntityManager } from 'typeorm';
 
 @Injectable()
 export class StoreLicenseKeysService {
   constructor(
     private readonly storeLicenseKeysRepository: StoreLicenseKeysRepository,
+    private readonly storeSubscriptionsRepository: StoreSubscriptionsRepository,
     private readonly licenseKeyIssuer: LicenseKeyIssuer,
   ) {}
+
+  /**
+   * Checks a user-entered key and returns the applications it unlocks. A key
+   * is valid only while it is not revoked and its owner has at least one
+   * active subscription; once all of them have ended it reports `expired`.
+   */
+  async validateLicenseKey(plainKey: string): Promise<LicenseKeyValidation> {
+    const normalizedKey = normalizeLicenseKey(plainKey);
+
+    if (!isLicenseKeyFormat(normalizedKey)) {
+      return this.toInvalidValidation(
+        LICENSE_KEY_VALIDATION_STATUSES.INVALID_FORMAT,
+      );
+    }
+
+    const licenseKey =
+      await this.storeLicenseKeysRepository.findLicenseKeyByHash(
+        hashLicenseKey(normalizedKey),
+      );
+
+    if (!licenseKey) {
+      return this.toInvalidValidation(
+        LICENSE_KEY_VALIDATION_STATUSES.NOT_FOUND,
+      );
+    }
+
+    if (licenseKey.revokedAt) {
+      return this.toInvalidValidation(LICENSE_KEY_VALIDATION_STATUSES.REVOKED);
+    }
+
+    const applicationIds =
+      await this.storeSubscriptionsRepository.findApplicationIdsOwnedByUser({
+        userId: licenseKey.userId,
+        excludedSubscriptionId: null,
+      });
+
+    if (applicationIds.length === 0) {
+      const hasEndedSubscription =
+        await this.storeSubscriptionsRepository.hasUserEndedSubscription(
+          licenseKey.userId,
+        );
+
+      return this.toInvalidValidation(
+        hasEndedSubscription
+          ? LICENSE_KEY_VALIDATION_STATUSES.EXPIRED
+          : LICENSE_KEY_VALIDATION_STATUSES.NO_ACTIVE_SUBSCRIPTION,
+      );
+    }
+
+    return { status: LICENSE_KEY_VALIDATION_STATUSES.VALID, applicationIds };
+  }
 
   async findUserLicenseKey(userId: string): Promise<UserLicenseKey | null> {
     const licenseKey =
@@ -48,5 +110,11 @@ export class StoreLicenseKeysService {
     );
 
     return licenseKey.plainKey;
+  }
+
+  private toInvalidValidation(
+    status: LicenseKeyValidation['status'],
+  ): LicenseKeyValidation {
+    return { status, applicationIds: [] };
   }
 }

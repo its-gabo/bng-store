@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, LessThanOrEqual } from 'typeorm';
+import { DataSource, In, LessThanOrEqual } from 'typeorm';
 
 import { UserEntity } from '../../users/db/user.entity';
 import { SUBSCRIPTION_STATUSES } from '../constants/store.constants';
@@ -38,7 +38,7 @@ export class StoreSubscriptionsRepository {
 
   async findApplicationIdsOwnedByUser(
     params: FindOwnedApplicationIdsParams,
-    manager: EntityManager,
+    manager: EntityManager = this.dataSource.manager,
   ): Promise<string[]> {
     const { userId, excludedSubscriptionId } = params;
 
@@ -60,6 +60,16 @@ export class StoreSubscriptionsRepository {
     const rows = await query.getRawMany<{ applicationId: string }>();
 
     return rows.map(({ applicationId }) => applicationId);
+  }
+
+  async hasUserEndedSubscription(userId: string): Promise<boolean> {
+    return this.dataSource.manager.existsBy(SubscriptionEntity, {
+      userId,
+      status: In([
+        SUBSCRIPTION_STATUSES.CANCELLED,
+        SUBSCRIPTION_STATUSES.EXPIRED,
+      ]),
+    });
   }
 
   async createSubscription(

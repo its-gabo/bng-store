@@ -1,5 +1,8 @@
 import type {
   storeCatalogDataSchema,
+  storeLicenseKeyValidationBodySchema,
+  storeLicenseKeyValidationDataSchema,
+  storeLicenseKeyValidationSuccessResponseSchema,
   storeCatalogSuccessResponseSchema,
   storeConfirmedOrderDataSchema,
   storeConfirmedOrderSuccessResponseSchema,
@@ -19,6 +22,9 @@ import type { Static, StaticDecode } from '@sinclair/typebox';
 
 export type StoreQuoteBody = StaticDecode<typeof storeQuoteBodySchema>;
 export type StoreSelectionBody = StaticDecode<typeof storeSelectionBodySchema>;
+export type StoreLicenseKeyValidationBody = StaticDecode<
+  typeof storeLicenseKeyValidationBodySchema
+>;
 
 export type StoreCatalogDto = Static<typeof storeCatalogDataSchema>;
 export type StoreQuoteDto = Static<typeof storeQuoteDataSchema>;
@@ -32,6 +38,10 @@ export type StoreUserSubscriptionDto = Static<
 
 export type StoreUserLicenseKeyDto = Static<
   typeof storeUserLicenseKeyDataSchema
+>;
+
+export type StoreLicenseKeyValidationDto = Static<
+  typeof storeLicenseKeyValidationDataSchema
 >;
 
 export type StoreCatalogSuccessResponse = Static<
@@ -51,6 +61,9 @@ export type StoreUserSubscriptionsSuccessResponse = Static<
 >;
 export type StoreUserLicenseKeySuccessResponse = Static<
   typeof storeUserLicenseKeySuccessResponseSchema
+>;
+export type StoreLicenseKeyValidationSuccessResponse = Static<
+  typeof storeLicenseKeyValidationSuccessResponseSchema
 >;
 export type StoreEmptySuccessResponse = Static<
   typeof storeEmptySuccessResponseSchema

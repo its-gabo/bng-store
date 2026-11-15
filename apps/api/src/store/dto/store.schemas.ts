@@ -8,6 +8,7 @@ import {
 import {
   BILLING_PERIODS,
   CURRENCIES,
+  LICENSE_KEY_VALIDATION_STATUSES,
   ORDER_KINDS,
   ORDER_STATUSES,
   PAYMENT_PROVIDERS,
@@ -173,6 +174,23 @@ export const storeUserLicenseKeyDataSchema = Type.Union([
   Type.Null(),
 ]);
 
+export const storeLicenseKeyValidationBodySchema = Type.Object({
+  licenseKey: Type.String({ minLength: 1, maxLength: 64 }),
+});
+
+export const storeLicenseKeyValidationDataSchema = Type.Object({
+  valid: Type.Boolean(),
+  status: Type.Union([
+    Type.Literal(LICENSE_KEY_VALIDATION_STATUSES.VALID),
+    Type.Literal(LICENSE_KEY_VALIDATION_STATUSES.INVALID_FORMAT),
+    Type.Literal(LICENSE_KEY_VALIDATION_STATUSES.NOT_FOUND),
+    Type.Literal(LICENSE_KEY_VALIDATION_STATUSES.REVOKED),
+    Type.Literal(LICENSE_KEY_VALIDATION_STATUSES.EXPIRED),
+    Type.Literal(LICENSE_KEY_VALIDATION_STATUSES.NO_ACTIVE_SUBSCRIPTION),
+  ]),
+  applicationIds: Type.Array(uuidSchema),
+});
+
 export const storeEmptyDataSchema = Type.Object({});
 
 export const storeCatalogSuccessResponseSchema = createApiSuccessResponseSchema(
@@ -188,5 +206,7 @@ export const storeUserSubscriptionsSuccessResponseSchema =
   createApiSuccessResponseSchema(storeUserSubscriptionsDataSchema);
 export const storeUserLicenseKeySuccessResponseSchema =
   createApiSuccessResponseSchema(storeUserLicenseKeyDataSchema);
+export const storeLicenseKeyValidationSuccessResponseSchema =
+  createApiSuccessResponseSchema(storeLicenseKeyValidationDataSchema);
 export const storeEmptySuccessResponseSchema =
   createApiSuccessResponseSchema(storeEmptyDataSchema);

@@ -15,6 +15,12 @@ export class StoreLicenseKeysRepository {
     return this.dataSource.manager.findOneBy(LicenseKeyEntity, { userId });
   }
 
+  async findLicenseKeyByHash(
+    keyHash: string,
+  ): Promise<LicenseKeyEntity | null> {
+    return this.dataSource.manager.findOneBy(LicenseKeyEntity, { keyHash });
+  }
+
   async hasUserLicenseKey(
     userId: string,
     manager: EntityManager,

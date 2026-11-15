@@ -141,6 +141,32 @@ export interface GetSessionResponse {
   };
 }
 
+export interface ValidateLicenseKeyBody {
+  /**
+   * @minLength 1
+   * @maxLength 64
+   */
+  licenseKey: string;
+}
+
+export interface ValidateLicenseKeyResponse {
+  /** @minLength 1 */
+  code: string;
+  /** @minLength 1 */
+  message: string;
+  data: {
+    valid: boolean;
+    status:
+      | "valid"
+      | "invalid_format"
+      | "not_found"
+      | "revoked"
+      | "expired"
+      | "no_active_subscription";
+    applicationIds: string[];
+  };
+}
+
 export interface GetMyLicenseKeyResponse {
   /** @minLength 1 */
   code: string;
@@ -797,6 +823,26 @@ export class BngStoreApi<
       this.request<GetMyLicenseKeyResponse, ApiErrorResponse>({
         path: `/api/v1/me/license-key`,
         method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags LicenseKeyValidation
+     * @name LicenseKeyValidationControllerValidateLicenseKey
+     * @request POST:/api/v1/store/license-keys/validate
+     */
+    licenseKeyValidationControllerValidateLicenseKey: (
+      data: ValidateLicenseKeyBody,
+      params: RequestParams = {},
+    ) =>
+      this.request<ValidateLicenseKeyResponse, ApiErrorResponse>({
+        path: `/api/v1/store/license-keys/validate`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

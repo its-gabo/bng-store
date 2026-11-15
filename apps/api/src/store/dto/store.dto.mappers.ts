@@ -1,10 +1,13 @@
 import { match, P } from 'ts-pattern';
 
+import { LICENSE_KEY_VALIDATION_STATUSES } from '../constants/store.constants';
+
 import type {
   ConfirmedOrder,
   PendingOrder,
   StoreCatalog,
   StorePrice,
+  LicenseKeyValidation,
   StoreQuote,
   StoreSelectionRequest,
   UserLicenseKey,
@@ -13,6 +16,7 @@ import type {
 import type {
   StoreCatalogDto,
   StoreConfirmedOrderDto,
+  StoreLicenseKeyValidationDto,
   StorePendingOrderDto,
   StoreQuoteDto,
   StoreSelectionBody,
@@ -132,3 +136,11 @@ export const toStoreUserLicenseKeyDto = (
     keyHint: licenseKey.keyHint,
     issuedAt: licenseKey.issuedAt.toISOString(),
   };
+
+export const toStoreLicenseKeyValidationDto = (
+  validation: LicenseKeyValidation,
+): StoreLicenseKeyValidationDto => ({
+  valid: validation.status === LICENSE_KEY_VALIDATION_STATUSES.VALID,
+  status: validation.status,
+  applicationIds: validation.applicationIds,
+});

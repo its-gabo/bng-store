@@ -9,6 +9,7 @@ export const STORE_SUCCESS_CODES = {
   SUBSCRIPTION_CANCEL: 'store.subscription.cancel.success',
   SUBSCRIPTION_ADJUST: 'store.subscription.adjust.success',
   LICENSE_KEY: 'store.license_key.success',
+  LICENSE_KEY_VALIDATION: 'store.license_key.validation.success',
 } as const;
 
 export const STORE_SUCCESS_RESULTS = {
@@ -31,5 +32,9 @@ export const STORE_SUCCESS_RESULTS = {
   LICENSE_KEY: {
     code: STORE_SUCCESS_CODES.LICENSE_KEY,
     message: 'License key fetched',
+  },
+  LICENSE_KEY_VALIDATION: {
+    code: STORE_SUCCESS_CODES.LICENSE_KEY_VALIDATION,
+    message: 'License key checked',
   },
 } as const satisfies ApiResultCatalog<typeof STORE_SUCCESS_CODES>;

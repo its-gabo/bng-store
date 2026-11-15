@@ -33,6 +33,15 @@ export const SUBSCRIPTION_STATUSES = {
   EXPIRED: 'expired',
 } as const;
 
+export const LICENSE_KEY_VALIDATION_STATUSES = {
+  VALID: 'valid',
+  INVALID_FORMAT: 'invalid_format',
+  NOT_FOUND: 'not_found',
+  REVOKED: 'revoked',
+  EXPIRED: 'expired',
+  NO_ACTIVE_SUBSCRIPTION: 'no_active_subscription',
+} as const;
+
 export const PAYMENT_PROVIDERS = {
   MOCK: 'mock',
 } as const;

@@ -576,6 +576,47 @@
           "MyLicenseKey"
         ]
       }
+    },
+    "/api/v1/store/license-keys/validate": {
+      "post": {
+        "operationId": "LicenseKeyValidationController_validateLicenseKey",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateLicenseKeyBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateLicenseKeyResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unified error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "LicenseKeyValidation"
+        ]
+      }
     }
   },
   "info": {
@@ -914,6 +955,85 @@
                   "emailVerified": {
                     "type": "boolean"
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ValidateLicenseKeyBody": {
+        "type": "object",
+        "required": [
+          "licenseKey"
+        ],
+        "properties": {
+          "licenseKey": {
+            "minLength": 1,
+            "maxLength": 64,
+            "type": "string"
+          }
+        }
+      },
+      "ValidateLicenseKeyResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "required": [
+              "valid",
+              "status",
+              "applicationIds"
+            ],
+            "properties": {
+              "valid": {
+                "type": "boolean"
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "const": "valid",
+                    "type": "string"
+                  },
+                  {
+                    "const": "invalid_format",
+                    "type": "string"
+                  },
+                  {
+                    "const": "not_found",
+                    "type": "string"
+                  },
+                  {
+                    "const": "revoked",
+                    "type": "string"
+                  },
+                  {
+                    "const": "expired",
+                    "type": "string"
+                  },
+                  {
+                    "const": "no_active_subscription",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationIds": {
+                "type": "array",
+                "items": {
+                  "format": "uuid",
+                  "type": "string"
                 }
               }
             }

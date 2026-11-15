@@ -1,6 +1,7 @@
 import type {
   BILLING_PERIODS,
   CURRENCIES,
+  LICENSE_KEY_VALIDATION_STATUSES,
   ORDER_KINDS,
   ORDER_REJECTION_REASONS,
   ORDER_SELECTIONS,
@@ -138,6 +139,14 @@ export type UserSubscription = {
 export type UserLicenseKey = {
   keyHint: string;
   issuedAt: Date;
+};
+
+export type LicenseKeyValidationStatus =
+  (typeof LICENSE_KEY_VALIDATION_STATUSES)[keyof typeof LICENSE_KEY_VALIDATION_STATUSES];
+
+export type LicenseKeyValidation = {
+  status: LicenseKeyValidationStatus;
+  applicationIds: string[];
 };
 
 export type { IssuedLicenseKey } from '@workspace/license-keys';
